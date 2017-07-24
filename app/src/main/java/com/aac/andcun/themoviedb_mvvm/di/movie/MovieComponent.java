@@ -16,5 +16,4 @@ public interface MovieComponent {
 
     void inject(MoviePageFragment fragment);
 
-
 }

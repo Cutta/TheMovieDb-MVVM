@@ -14,13 +14,13 @@ import dagger.Provides;
 @Module
 public class MovieModule {
 
+    public MovieModule() {
+    }
 
     @Provides
     @PerFragment
     String provideDummyString(){
         return "";
     }
-
-
 
 }

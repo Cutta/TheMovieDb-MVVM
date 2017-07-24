@@ -28,17 +28,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         this.movieList = new ArrayList<>();
     }
 
-    public void setmovieList(List<ResultMovie> movieList) {
-        this.movieList = movieList;
-        notifyDataSetChanged();
-    }
-
-    public void addmovieList(List<ResultMovie> movieList) {
+    public void addMovieList(List<ResultMovie> movieList) {
         List<ResultMovie> sumList = this.movieList;
         sumList.addAll(movieList);
         notifyDataSetChanged();
     }
-
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,7 +43,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         ResultMovie movie = movieList.get(position);
-
         holder.bind(movie);
         /*if (temp instanceof ResultMovie) {
             ResultMovie tempMovie = (ResultMovie) temp;
@@ -87,10 +80,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         }
 
-        public void bind(ResultMovie resultMovie) {
-
+        void bind(ResultMovie resultMovie) {
+            binding.setMovie(resultMovie);
+            binding.executePendingBindings();
         }
 
-
     }
+
 }

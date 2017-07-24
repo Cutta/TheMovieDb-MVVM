@@ -51,22 +51,20 @@ public class NetworkModule {
     @Provides
     @Singleton
     TMDBService provideService(Retrofit retrofit) {
-
         return retrofit.create(TMDBService.class);
-
     }
 
 
     @Provides
     @Singleton
-    MovieRepository provideMovieRepository(TMDBService service){
-        return  new MovieRepository(service);
+    MovieRepository provideMovieRepository(TMDBService service) {
+        return new MovieRepository(service);
     }
 
     @Provides
     @Singleton
-    TvRepository provideTvRepository(TMDBService service){
-        return  new TvRepository(service);
+    TvRepository provideTvRepository(TMDBService service) {
+        return new TvRepository(service);
     }
 /*
     @Provides

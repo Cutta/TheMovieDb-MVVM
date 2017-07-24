@@ -2,6 +2,7 @@ package com.aac.andcun.themoviedb_mvvm.di.app;
 
 import android.content.Context;
 import com.aac.andcun.themoviedb_mvvm.TMDBApp;
+import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 
 import javax.inject.Singleton;
 import dagger.Component;
@@ -15,6 +16,8 @@ import dagger.Component;
 public interface AppComponent {
 
     Context context();
+
+    MovieRepository movieRepository();
 
     void inject(TMDBApp app);
 

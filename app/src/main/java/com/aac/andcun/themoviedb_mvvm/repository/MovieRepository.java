@@ -8,6 +8,8 @@ import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -19,6 +21,7 @@ public class MovieRepository {
 
     private TMDBService service;
 
+    @Inject
     public MovieRepository(TMDBService service) {
         this.service = service;
     }

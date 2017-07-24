@@ -3,6 +3,7 @@ package com.aac.andcun.themoviedb_mvvm.ui.movie;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
@@ -12,6 +13,7 @@ import com.aac.andcun.themoviedb_mvvm.di.movie.MovieModule;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 import com.aac.andcun.themoviedb_mvvm.ui.common.MovieAdapter;
+import com.aac.andcun.themoviedb_mvvm.ui.common.decoration.GridSpacingItemDecoration;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
 import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
 
@@ -49,8 +51,6 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-
-
     }
 
     @Override
@@ -61,7 +61,8 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
                 .subscribe(new Consumer<List<ResultMovie>>() {
                     @Override
                     public void accept(List<ResultMovie> resultMovies) throws Exception {
-                        adapter.addmovieList(resultMovies);
+                        Log.e("MoviePageFragment", "Count: " + resultMovies.size());
+                        adapter.addMovieList(resultMovies);
                         binding.executePendingBindings();
 
                     }
@@ -90,12 +91,10 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
 
     @Override
     protected void setUpUiComponents() {
-
         adapter = new MovieAdapter();
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(getResources().getDimensionPixelSize(R.dimen.movie_tv_item_margin)));
         binding.recyclerView.setAdapter(adapter);
-
-
-
     }
+
 }

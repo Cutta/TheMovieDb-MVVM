@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TheMovieDbMVVM.iml" filepath="$PROJECT_DIR$/TheMovieDbMVVM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TheMovieDb-MVVM.iml" filepath="$PROJECT_DIR$/TheMovieDb-MVVM.iml" />
+      <module fileurl="file://C:\Users\andan.MSI\Desktop\TheMovieDb-MVVM\TheMovieDbMVVM.iml" filepath="C:\Users\andan.MSI\Desktop\TheMovieDb-MVVM\TheMovieDbMVVM.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\andan.MSI\Desktop\TheMovieDb-MVVM\app\app.iml" filepath="C:\Users\andan.MSI\Desktop\TheMovieDb-MVVM\app\app.iml" />
     </modules>
   </component>
 </project>
