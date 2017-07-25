@@ -27,6 +27,7 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
         adapter = new MoviePagerAdapter(getFragmentManager());
 
         binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setOffscreenPageLimit(3);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
 
     }
@@ -52,7 +53,7 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
                     title = "POPULAR";
                     break;
                 case 1:
-                    title = "IN THEATRES";
+                    title = "NOW PLAYING";
                     break;
 
                 case 2:

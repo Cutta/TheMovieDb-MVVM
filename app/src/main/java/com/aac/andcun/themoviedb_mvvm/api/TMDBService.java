@@ -1,5 +1,6 @@
 package com.aac.andcun.themoviedb_mvvm.api;
 
+import com.aac.andcun.themoviedb_mvvm.vo.ResponseCredits;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseRequestToken;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseResultList;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseSessionId;
@@ -8,6 +9,7 @@ import com.aac.andcun.themoviedb_mvvm.vo.ResultTv;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -66,6 +68,15 @@ public interface TMDBService {
                                                                    @Query("language") String language,
                                                                    @Query("page") int page);
 
+    @GET("movie/{movie_id}")
+    Observable<ResultMovie> getMovieDetail(@Path("movie_id") int movieId, @Query("api_key") String apiKey,
+                                           @Query("language") String language);
+
+
+    @GET("movie/{movie_id}/credits")
+    Observable<ResponseCredits> getMovieCredit(@Path("movie_id") int movieId, @Query("api_key") String apiKey,
+                                               @Query("language") String language);
+
     //DISCOVER
     @GET("discover/movie")
     Observable<ResponseResultList<ResultMovie>> getDiscoverMovie(@Query("api_key") String apiKey,
@@ -76,4 +87,5 @@ public interface TMDBService {
     Observable<ResponseResultList<ResultTv>> getDiscoverTv(@Query("api_key") String apiKey,
                                                            @Query("language") String language,
                                                            @Query("page") int page);
+
 }

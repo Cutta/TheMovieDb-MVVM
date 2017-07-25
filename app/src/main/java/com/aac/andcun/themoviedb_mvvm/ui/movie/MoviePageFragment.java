@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -56,7 +57,25 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        repository.getPopularMovies(1)
+
+        Observable<List<ResultMovie>> observable = null;
+
+        switch (position) {
+            case 0:
+                observable = repository.getPopularMovies(1);
+                break;
+
+            case 1:
+                observable = repository.getNowPlayingMovies(1);
+                break;
+
+            case 2:
+                observable = repository.getUpcomingMovies(1);
+                break;
+        }
+
+
+        observable
                 .compose(RxTransformer.<List<ResultMovie>>applyIOSchedulers())
                 .subscribe(new Consumer<List<ResultMovie>>() {
                     @Override
@@ -92,7 +111,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     @Override
     protected void setUpUiComponents() {
         adapter = new MovieAdapter();
-        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(getResources().getDimensionPixelSize(R.dimen.movie_tv_item_margin)));
         binding.recyclerView.setAdapter(adapter);
     }
