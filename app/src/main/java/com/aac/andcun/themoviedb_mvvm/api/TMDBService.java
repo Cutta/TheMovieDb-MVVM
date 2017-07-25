@@ -69,13 +69,20 @@ public interface TMDBService {
                                                                    @Query("page") int page);
 
     @GET("movie/{movie_id}")
-    Observable<ResultMovie> getMovieDetail(@Path("movie_id") int movieId, @Query("api_key") String apiKey,
+    Observable<ResultMovie> getMovieDetail(@Path("movie_id") int movieId,
+                                           @Query("api_key") String apiKey,
                                            @Query("language") String language);
 
 
     @GET("movie/{movie_id}/credits")
-    Observable<ResponseCredits> getMovieCredit(@Path("movie_id") int movieId, @Query("api_key") String apiKey,
+    Observable<ResponseCredits> getMovieCredit(@Path("movie_id") int movieId,
+                                               @Query("api_key") String apiKey,
                                                @Query("language") String language);
+
+    @GET("movie/{movie_id}/similar")
+    Observable<ResponseResultList<ResultMovie>> getSimilarMovies(@Path("movie_id") int movieId,
+                                                                 @Query("api_key") String apiKey,
+                                                                 @Query("language") String language);
 
     //DISCOVER
     @GET("discover/movie")

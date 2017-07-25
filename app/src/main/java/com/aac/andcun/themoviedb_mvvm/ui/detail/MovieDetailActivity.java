@@ -15,6 +15,7 @@ import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseCredits;
+import com.aac.andcun.themoviedb_mvvm.vo.ResponseResultList;
 import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
 
 import javax.inject.Inject;
@@ -48,7 +49,8 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         movieId = getIntent().getIntExtra(EXTRA_MOVIE_ID, -1);
 
         //getDetail();
-        getMovieCredits();
+        //getMovieCredits();
+        getSimilarMovies();
     }
 
     private void getDetail() {
@@ -78,6 +80,21 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Toast.makeText(MovieDetailActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void getSimilarMovies() {
+        repository.getSimilars(movieId).compose(RxTransformer.<ResponseResultList<ResultMovie>>applyIOSchedulers())
+                .subscribe(new Consumer<ResponseResultList<ResultMovie>>() {
+                    @Override
+                    public void accept(ResponseResultList<ResultMovie> resultMovieResponseResultList) throws Exception {
+                        Log.i("", "");
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.i("", "");
                     }
                 });
     }

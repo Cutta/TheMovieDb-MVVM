@@ -51,6 +51,9 @@ public class ResultMovie {
     @SerializedName("vote_average")
     @Expose
     private double voteAverage;
+    @SerializedName("budget")
+    @Expose
+    private int budget;
 
     public String getPosterPath() {
         return posterPath;
@@ -162,6 +165,14 @@ public class ResultMovie {
 
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
     }
 
 }
