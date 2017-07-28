@@ -169,15 +169,14 @@ public class ResultMovie {
         this.voteAverage = voteAverage;
     }
 
-<<<<<<< HEAD
+
 
     public String getDateFormatted(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy",Locale.getDefault());
         return formatter.format(releaseDate);
     }
 
-}
-=======
+
     public int getBudget() {
         return budget;
     }
@@ -187,4 +186,4 @@ public class ResultMovie {
     }
 
 }
->>>>>>> 0ea9e91197d6a33f4c512221b81fff2211ad3a0b
+
