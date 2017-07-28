@@ -21,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/movie_tv_item_height"
             android:contentDescription="@null"
-            app:backdropPath="@{tv.backdropPath}" />
+            android:scaleType="center"
+            app:backdropPath="@{tv.posterPath}" />
 
         <TextView
             android:id="@+id/textViewName"
@@ -29,8 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/movie_tv_item_title_margin"
             android:ellipsize="end"
+            android:gravity="center_vertical"
             android:lines="2"
-            android:text="@{tv.name}" />
+            android:text="@{tv.name}"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textViewDate"
@@ -41,6 +45,7 @@
             android:layout_marginLeft="@dimen/movie_tv_item_title_margin"
             android:layout_marginRight="@dimen/movie_tv_item_title_margin"
             android:layout_marginStart="@dimen/movie_tv_item_title_margin"
+            android:text="@{tv.getDateFormatted}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
     </LinearLayout>

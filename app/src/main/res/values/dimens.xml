@@ -3,6 +3,6 @@
 
     <dimen name="movie_tv_item_height">144dp</dimen>
     <dimen name="movie_tv_item_margin">16dp</dimen>
-    <dimen name="movie_tv_item_title_margin">8dp</dimen>
+    <dimen name="movie_tv_item_title_margin">6dp</dimen>
 
 </resources>

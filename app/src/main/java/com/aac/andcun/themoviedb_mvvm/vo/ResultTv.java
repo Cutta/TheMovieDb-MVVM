@@ -4,8 +4,10 @@ package com.aac.andcun.themoviedb_mvvm.vo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ResultTv {
 
@@ -153,4 +155,8 @@ public class ResultTv {
         this.originalName = originalName;
     }
 
+    public String getDateFormatted(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        return formatter.format(firstAirDate);
+    }
 }

@@ -14,6 +14,7 @@ import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 import com.aac.andcun.themoviedb_mvvm.ui.common.MovieAdapter;
 import com.aac.andcun.themoviedb_mvvm.ui.common.decoration.GridSpacingItemDecoration;
+import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
 import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
 
@@ -114,6 +115,13 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(getResources().getDimensionPixelSize(R.dimen.movie_tv_item_margin)));
         binding.recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, ResultMovie item) {
+                startActivity(MovieDetailActivity.newIntent(getActivity(), item.getId()));
+            }
+        });
     }
 
 }

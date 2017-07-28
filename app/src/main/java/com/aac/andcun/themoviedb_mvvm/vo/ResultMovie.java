@@ -4,8 +4,10 @@ package com.aac.andcun.themoviedb_mvvm.vo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ResultMovie {
 
@@ -26,7 +28,7 @@ public class ResultMovie {
     private List<Integer> genreIds = null;
     @SerializedName("id")
     @Expose
-    private Long id;
+    private int id;
     @SerializedName("original_title")
     @Expose
     private String originalTitle;
@@ -92,11 +94,11 @@ public class ResultMovie {
         this.genreIds = genreIds;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -162,6 +164,12 @@ public class ResultMovie {
 
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+
+    public String getDateFormatted(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy",Locale.getDefault());
+        return formatter.format(releaseDate);
     }
 
 }

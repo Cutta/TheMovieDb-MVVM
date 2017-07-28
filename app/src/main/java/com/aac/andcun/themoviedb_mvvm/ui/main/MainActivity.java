@@ -14,7 +14,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(MovieDetailActivity.newIntent(MainActivity.this,550));
+     //   startActivity(MovieDetailActivity.newIntent(MainActivity.this,550));
 
     }
 

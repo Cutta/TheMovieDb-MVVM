@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.FragmentTvBinding;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
-import com.aac.andcun.themoviedb_mvvm.ui.movie.MoviePageFragment;
 
 /**
  * Created by cuneytcarikci on 24/07/2017.

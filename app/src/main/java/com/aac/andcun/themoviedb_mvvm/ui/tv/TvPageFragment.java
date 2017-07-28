@@ -47,6 +47,7 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +78,7 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
                     @Override
                     public void accept(List<ResultTv> ResultTvs) throws Exception {
                         Log.e("MoviePageFragment", "Count: " + ResultTvs.size());
-                        adapter.addMovieList(ResultTvs);
+                        adapter.addtvList(ResultTvs);
                         binding.executePendingBindings();
 
                     }
@@ -110,5 +111,12 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(getResources().getDimensionPixelSize(R.dimen.movie_tv_item_margin)));
         binding.recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new TvAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, ResultTv item) {
+                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
