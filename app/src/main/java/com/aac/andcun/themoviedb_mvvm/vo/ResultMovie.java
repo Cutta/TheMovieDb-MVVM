@@ -53,6 +53,9 @@ public class ResultMovie {
     @SerializedName("vote_average")
     @Expose
     private double voteAverage;
+    @SerializedName("budget")
+    @Expose
+    private int budget;
 
     public String getPosterPath() {
         return posterPath;
@@ -166,6 +169,7 @@ public class ResultMovie {
         this.voteAverage = voteAverage;
     }
 
+<<<<<<< HEAD
 
     public String getDateFormatted(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy",Locale.getDefault());
@@ -173,3 +177,14 @@ public class ResultMovie {
     }
 
 }
+=======
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+}
+>>>>>>> 0ea9e91197d6a33f4c512221b81fff2211ad3a0b

@@ -72,4 +72,9 @@ public class MovieRepository {
     public Observable<ResponseCredits> getCredits(int movieId){
         return service.getMovieCredit(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
     }
+
+    public Observable<ResponseResultList<ResultMovie>> getSimilars(int movieId) {
+        return service.getSimilarMovies(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+    }
+
 }
