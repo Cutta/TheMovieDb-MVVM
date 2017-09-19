@@ -29,18 +29,20 @@ import static com.aac.andcun.themoviedb_mvvm.api.ApiConstants.BASE_URL;
 @Module
 public class AppModule {
 
-    private Application app;
+   // private Application app;
 
-    public AppModule(Application app) {
-        this.app = app;
-    }
+   // public AppModule(Application app) {
+    //    this.app = app;
+   // }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     Gson provideGson() {
         return new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -48,7 +50,8 @@ public class AppModule {
                 .build();
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -58,17 +61,20 @@ public class AppModule {
                 .build();
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     TMDBService provideService(Retrofit retrofit) {
         return retrofit.create(TMDBService.class);
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     MovieRepository provideMovieRepository(TMDBService service) {
         return new MovieRepository(service);
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     TvRepository provideTvRepository(TMDBService service) {
         return new TvRepository(service);
     }

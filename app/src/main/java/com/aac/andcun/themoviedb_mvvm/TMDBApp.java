@@ -3,9 +3,8 @@ package com.aac.andcun.themoviedb_mvvm;
 import android.app.Activity;
 import android.app.Application;
 
-import com.aac.andcun.themoviedb_mvvm.di.app.AppModule;
+
 import com.aac.andcun.themoviedb_mvvm.di.app.DaggerAppComponent;
-import com.aac.andcun.themoviedb_mvvm.di.app.NetworkModule;
 
 import javax.inject.Inject;
 
@@ -30,6 +29,9 @@ public class TMDBApp extends Application implements HasActivityInjector {
 
 
     private void initAppComponent() {
+
+        DaggerAppComponent
+                .builder().build().inject(this);
 
         /*DaggerAppComponent
                 .builder()
