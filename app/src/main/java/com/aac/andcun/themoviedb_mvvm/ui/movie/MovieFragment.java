@@ -6,13 +6,19 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.FragmentMovieBinding;
+import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
+
+import javax.inject.Inject;
 
 /**
  * Created by cuneytcarikci on 24/07/2017.
  */
 
 public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
+
+    @Inject
+    MovieRepository movieRepository;
 
     MoviePagerAdapter adapter;
 

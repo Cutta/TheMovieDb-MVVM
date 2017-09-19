@@ -18,13 +18,10 @@ import dagger.android.AndroidInjectionModule;
  */
 
 @Singleton
-@Component(
-        modules = {
-                AppModule.class,
-                AndroidInjectionModule.class,
-                ActivityBuilderModule.class
-        }
-)
+@Component(modules = {
+        AppModule.class,
+        AndroidInjectionModule.class,
+        ActivityBuilderModule.class})
 public interface AppComponent {
 
     @Component.Builder
@@ -36,6 +33,5 @@ public interface AppComponent {
 
     }
 
-    void inject(TMDBApp app);
-
+    void inject(TMDBApp aaApp);
 }

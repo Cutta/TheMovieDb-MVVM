@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.ActivityMainBinding;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
-import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {

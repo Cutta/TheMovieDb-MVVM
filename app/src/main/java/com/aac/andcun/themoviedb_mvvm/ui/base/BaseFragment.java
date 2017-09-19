@@ -26,8 +26,8 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
+        AndroidSupportInjection.inject(this);
     }
 
     @Nullable
