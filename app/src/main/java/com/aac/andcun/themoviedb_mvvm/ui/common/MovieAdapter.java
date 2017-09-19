@@ -3,10 +3,8 @@ package com.aac.andcun.themoviedb_mvvm.ui.common;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.ItemMovieBinding;
 import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
 

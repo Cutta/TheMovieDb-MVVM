@@ -8,8 +8,6 @@ import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.FragmentMoviePageBinding;
-import com.aac.andcun.themoviedb_mvvm.di.movie.DaggerMovieComponent;
-import com.aac.andcun.themoviedb_mvvm.di.movie.MovieModule;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 import com.aac.andcun.themoviedb_mvvm.ui.common.MovieAdapter;
@@ -97,11 +95,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
 
     @Override
     protected void resolveDaggerDependency() {
-        DaggerMovieComponent.builder()
-                .appComponent(getAppComponent())
-                .movieModule(new MovieModule())
-                .build()
-                .inject(this);
+
     }
 
     @Override

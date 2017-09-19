@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.aac.andcun.themoviedb_mvvm.TMDBApp;
 import com.aac.andcun.themoviedb_mvvm.di.app.AppComponent;
 
+import dagger.android.support.AndroidSupportInjection;
+
 /**
  * Created by cuneytcarikci on 24/07/2017.
  */
@@ -21,6 +23,12 @@ import com.aac.andcun.themoviedb_mvvm.di.app.AppComponent;
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     protected T binding;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -38,10 +46,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     protected void resolveDaggerDependency() {
 
-    }
-
-    protected AppComponent getAppComponent() {
-        return ((TMDBApp) ((Activity) getContext()).getApplication()).getAppComponent();
     }
 
     @LayoutRes

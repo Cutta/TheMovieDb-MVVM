@@ -68,4 +68,5 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
             return TAB_COUNT;
         }
     }
+
 }

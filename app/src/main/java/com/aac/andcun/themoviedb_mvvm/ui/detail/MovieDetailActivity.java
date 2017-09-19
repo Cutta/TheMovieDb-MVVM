@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.ActivityMovieDetailBinding;
-import com.aac.andcun.themoviedb_mvvm.di.detail.DaggerDetailComponent;
-import com.aac.andcun.themoviedb_mvvm.di.detail.DetailModule;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
@@ -111,10 +109,6 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
 
     @Override
     protected void resolveDaggerDependency() {
-        DaggerDetailComponent.builder()
-                .appComponent(getApplicationComponent())
-                .detailModule(new DetailModule())
-                .build()
-                .inject(this);
+
     }
 }

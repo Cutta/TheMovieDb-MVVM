@@ -8,8 +8,6 @@ import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.FragmentTvPageBinding;
-import com.aac.andcun.themoviedb_mvvm.di.tv.DaggerTvComponent;
-import com.aac.andcun.themoviedb_mvvm.di.tv.TvModule;
 import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 import com.aac.andcun.themoviedb_mvvm.ui.common.TvAdapter;
@@ -99,10 +97,7 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
 
     @Override
     protected void resolveDaggerDependency() {
-        DaggerTvComponent.builder()
-                .appComponent(getAppComponent())
-                .tvModule(new TvModule())
-                .build().inject(this);
+
     }
 
     @Override
