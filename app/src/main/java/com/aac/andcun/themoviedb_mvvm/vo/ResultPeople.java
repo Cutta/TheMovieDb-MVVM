@@ -19,7 +19,7 @@ public class ResultPeople {
     private Long id;
     @SerializedName("known_for")
     @Expose
-    private List<ResultMovie> knownFor = null;
+    private List<Movie> knownFor = null;
     @SerializedName("name")
     @Expose
     private String name;
@@ -51,11 +51,11 @@ public class ResultPeople {
         this.id = id;
     }
 
-    public List<ResultMovie> getKnownFor() {
+    public List<Movie> getKnownFor() {
         return knownFor;
     }
 
-    public void setKnownFor(List<ResultMovie> knownFor) {
+    public void setKnownFor(List<Movie> knownFor) {
         this.knownFor = knownFor;
     }
 

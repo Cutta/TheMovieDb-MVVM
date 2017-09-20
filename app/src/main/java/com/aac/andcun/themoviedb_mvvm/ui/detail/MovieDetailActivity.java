@@ -8,7 +8,7 @@ import com.aac.andcun.themoviedb_mvvm.databinding.ActivityMovieDetailBinding;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
-import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
+import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 
 import javax.inject.Inject;
 
@@ -39,10 +39,10 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     protected void setUpUiComponents() {
         movieRepository.getMovieDetail(getMovieId())
-                .compose(RxTransformer.<ResultMovie>applyIOSchedulers())
-                .subscribe(new Consumer<ResultMovie>() {
+                .compose(RxTransformer.<Movie>applyIOSchedulers())
+                .subscribe(new Consumer<Movie>() {
                     @Override
-                    public void accept(ResultMovie resultMovie) throws Exception {
+                    public void accept(Movie movie) throws Exception {
 
                     }
                 }, new Consumer<Throwable>() {

@@ -1,8 +1,14 @@
 package com.aac.andcun.themoviedb_mvvm.di.app;
 
+import android.app.Application;
+import android.arch.persistence.room.Room;
+
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
+import com.aac.andcun.themoviedb_mvvm.db.MovieDao;
+import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
+import com.aac.andcun.themoviedb_mvvm.util.AppExecutors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,7 +31,6 @@ import static com.aac.andcun.themoviedb_mvvm.api.ApiConstants.BASE_URL;
 
 @Module
 public class AppModule {
-
 
     @Singleton
     @Provides
@@ -61,14 +66,32 @@ public class AppModule {
 
     @Singleton
     @Provides
-    MovieRepository provideMovieRepository(TMDBService service) {
-        return new MovieRepository(service);
+    TMDBDb provideDb(Application app) {
+        return Room.databaseBuilder(app, TMDBDb.class, "tmdb.db").build();
+    }
+
+    @Singleton
+    @Provides
+    MovieDao provideMovieDao(TMDBDb db) {
+        return db.movieDao();
+    }
+
+    /*@Singleton
+    @Provides
+    AppExecutors provideAppExecutors() {
+        return new AppExecutors();
+    }*/
+
+    /*@Singleton
+    @Provides
+    MovieRepository provideMovieRepository(TMDBService service, MovieDao movieDao, AppExecutors appExecutors) {
+        return new MovieRepository(service, movieDao, appExecutors);
     }
 
     @Singleton
     @Provides
     TvRepository provideTvRepository(TMDBService service) {
         return new TvRepository(service);
-    }
+    }*/
 
 }

@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aac.andcun.themoviedb_mvvm.databinding.ItemMovieBinding;
-import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
+import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 /**
@@ -21,15 +19,15 @@ import java.util.Locale;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private List<ResultMovie> movieList;
+    private List<Movie> movieList;
     private OnItemClickListener onItemClickListener;
 
     public MovieAdapter() {
         this.movieList = new ArrayList<>();
     }
 
-    public void addMovieList(List<ResultMovie> movieList) {
-        List<ResultMovie> sumList = this.movieList;
+    public void addMovieList(List<Movie> movieList) {
+        List<Movie> sumList = this.movieList;
         sumList.addAll(movieList);
         notifyDataSetChanged();
     }
@@ -52,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             }
         });
 
-        ResultMovie movie = movieList.get(position);
+        Movie movie = movieList.get(position);
         holder.bind(movie);
 
     }
@@ -75,8 +73,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         }
 
-        void bind(ResultMovie resultMovie) {
-            binding.setMovie(resultMovie);
+        void bind(Movie movie) {
+            binding.setMovie(movie);
             binding.executePendingBindings();
         }
 
@@ -87,7 +85,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, ResultMovie item);
+        void onItemClick(int position, Movie item);
     }
 
 }

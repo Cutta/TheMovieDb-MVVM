@@ -14,7 +14,7 @@ import com.aac.andcun.themoviedb_mvvm.ui.common.MovieAdapter;
 import com.aac.andcun.themoviedb_mvvm.ui.common.decoration.GridSpacingItemDecoration;
 import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
-import com.aac.andcun.themoviedb_mvvm.vo.ResultMovie;
+import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Observable<List<ResultMovie>> observable = null;
+        Observable<List<Movie>> observable = null;
 
         switch (position) {
             case 0:
@@ -75,12 +75,12 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
 
 
         observable
-                .compose(RxTransformer.<List<ResultMovie>>applyIOSchedulers())
-                .subscribe(new Consumer<List<ResultMovie>>() {
+                .compose(RxTransformer.<List<Movie>>applyIOSchedulers())
+                .subscribe(new Consumer<List<Movie>>() {
                     @Override
-                    public void accept(List<ResultMovie> resultMovies) throws Exception {
-                        Log.e("MoviePageFragment", "Count: " + resultMovies.size());
-                        adapter.addMovieList(resultMovies);
+                    public void accept(List<Movie> movies) throws Exception {
+                        Log.e("MoviePageFragment", "Count: " + movies.size());
+                        adapter.addMovieList(movies);
                         binding.executePendingBindings();
 
                     }
@@ -112,7 +112,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
 
         adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position, ResultMovie item) {
+            public void onItemClick(int position, Movie item) {
                 startActivity(MovieDetailActivity.newIntent(getActivity(), item.getId()));
             }
         });

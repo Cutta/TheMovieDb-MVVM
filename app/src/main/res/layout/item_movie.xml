@@ -6,7 +6,7 @@
 
         <variable
             name="movie"
-            type="com.aac.andcun.themoviedb_mvvm.vo.ResultMovie" />
+            type="com.aac.andcun.themoviedb_mvvm.vo.Movie" />
 
     </data>
 

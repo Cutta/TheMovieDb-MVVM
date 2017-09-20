@@ -1,6 +1,10 @@
 
 package com.aac.andcun.themoviedb_mvvm.vo;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.TypeConverters;
+
+import com.aac.andcun.themoviedb_mvvm.db.EntityTypeConverters;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ResultMovie {
+@Entity(primaryKeys = {"id"})
+@TypeConverters(EntityTypeConverters.class)
+public class Movie {
 
     @SerializedName("poster_path")
     @Expose
@@ -169,13 +175,10 @@ public class ResultMovie {
         this.voteAverage = voteAverage;
     }
 
-
-
     public String getDateFormatted(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy",Locale.getDefault());
         return formatter.format(releaseDate);
     }
-
 
     public int getBudget() {
         return budget;

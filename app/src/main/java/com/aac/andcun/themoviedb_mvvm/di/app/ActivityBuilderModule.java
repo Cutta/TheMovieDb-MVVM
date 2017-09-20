@@ -16,7 +16,7 @@ public abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = FragmentBuilderModule.class)
     abstract MainActivity mainActivity();
 
-    @ContributesAndroidInjector(modules = FragmentBuilderModule.class)
-    abstract MovieDetailActivity movieDetailActivity();
+    /*@ContributesAndroidInjector(modules = FragmentBuilderModule.class)
+    abstract MovieDetailActivity movieDetailActivity();*/
 
 }
