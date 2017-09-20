@@ -1,15 +1,9 @@
 package com.aac.andcun.themoviedb_mvvm.di.app;
 
-import android.app.Application;
-import android.content.Context;
-
 import com.aac.andcun.themoviedb_mvvm.TMDBApp;
-import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
-import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
 
 import javax.inject.Singleton;
 
-import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
@@ -26,8 +20,6 @@ public interface AppComponent {
 
     @Component.Builder
     interface Builder {
-
-
 
         AppComponent build();
 

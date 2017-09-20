@@ -1,8 +1,5 @@
 package com.aac.andcun.themoviedb_mvvm.di.app;
 
-import android.app.Application;
-import android.content.Context;
-
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
@@ -29,11 +26,6 @@ import static com.aac.andcun.themoviedb_mvvm.api.ApiConstants.BASE_URL;
 @Module
 public class AppModule {
 
-   // private Application app;
-
-   // public AppModule(Application app) {
-    //    this.app = app;
-   // }
 
     @Singleton
     @Provides

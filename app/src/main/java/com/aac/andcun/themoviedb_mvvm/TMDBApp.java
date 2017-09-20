@@ -33,13 +33,6 @@ public class TMDBApp extends Application implements HasActivityInjector {
         DaggerAppComponent
                 .builder().build().inject(this);
 
-        /*DaggerAppComponent
-                .builder()
-                .appModule(new AppModule(this))
-                .networkModule(new NetworkModule())
-                .build()
-                .inject(this);*/
-
     }
 
     @Override
