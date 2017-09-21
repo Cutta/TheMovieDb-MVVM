@@ -9,6 +9,7 @@ import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
 import com.aac.andcun.themoviedb_mvvm.util.AppExecutors;
+import com.aac.andcun.themoviedb_mvvm.util.LiveDataCallAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -53,7 +54,7 @@ public class AppModule {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }

@@ -27,6 +27,9 @@ public class TvRepository {
 
     public Observable<List<ResultTv>> getPopularTvs(int page) {
 
+        return null;
+        /*
+
         return service.getPopularTv(ApiConstants.API_KEY, Locale.getDefault().getLanguage(), page)
                 .map(new io.reactivex.functions.Function<ResponseResultList<ResultTv>, List<ResultTv>>() {
                     @Override
@@ -34,11 +37,13 @@ public class TvRepository {
                         return result.getResults();
                     }
                 });
+                */
 
     }
 
     public Observable<List<ResultTv>> getOnTheAirTvs(int page) {
 
+        return null;/*
         return service.getTvOnTheAir(ApiConstants.API_KEY, Locale.getDefault().getLanguage(), page)
                 .map(new io.reactivex.functions.Function<ResponseResultList<ResultTv>, List<ResultTv>>() {
                     @Override
@@ -46,6 +51,7 @@ public class TvRepository {
                         return result.getResults();
                     }
                 });
+                */
 
     }
 }

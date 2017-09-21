@@ -1,5 +1,7 @@
 package com.aac.andcun.themoviedb_mvvm.ui.movie;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,6 +17,7 @@ import com.aac.andcun.themoviedb_mvvm.ui.common.decoration.GridSpacingItemDecora
 import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
+import com.aac.andcun.themoviedb_mvvm.vo.Resource;
 
 import java.util.List;
 
@@ -57,24 +60,37 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Observable<List<Movie>> observable = null;
+        LiveData<Resource<List<Movie>>> resourceLiveData = null;
 
         switch (position) {
             case 0:
-                observable = repository.getPopularMovies(1);
+                resourceLiveData = repository.getPopularMovies();
                 break;
 
             case 1:
-                observable = repository.getNowPlayingMovies(1);
+                //observable = repository.getNowPlayingMovies(1);
+                resourceLiveData = repository.getPopularMovies();
                 break;
 
             case 2:
-                observable = repository.getUpcomingMovies(1);
+                resourceLiveData = repository.getPopularMovies();
+                //observable = repository.getUpcomingMovies(1);
                 break;
         }
 
+        resourceLiveData.observeForever(new Observer<Resource<List<Movie>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<Movie>> listResource) {
+                if (listResource.data != null){
+                    adapter.addMovieList(listResource.data);
+                    binding.executePendingBindings();
+                }
 
-        observable
+            }
+        });
+
+
+     /*   observable
                 .compose(RxTransformer.<List<Movie>>applyIOSchedulers())
                 .subscribe(new Consumer<List<Movie>>() {
                     @Override
@@ -90,6 +106,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
                         Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+                */
 
     }
 

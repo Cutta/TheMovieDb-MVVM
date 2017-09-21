@@ -24,6 +24,9 @@ public abstract class MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertMovies(List<Movie> movies);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insert(PaginationResult result);
+
     @Query("SELECT * FROM PaginationResult WHERE type = :type")
     public abstract LiveData<PaginationResult> search(String type);
 

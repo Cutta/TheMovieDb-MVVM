@@ -23,7 +23,7 @@ android {
 ext {
     supportVersion = "26.1.0"
     daggerVersion = "2.11"
-    archVersion = "1.0.0-alpha5"
+    archVersion = "1.0.0-alpha9-1"
 }
 
 dependencies {
@@ -37,11 +37,15 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
 
     //arch
-    compile "android.arch.persistence.room:runtime:$archVersion"
-    compile "android.arch.lifecycle:runtime:$archVersion"
-    compile "android.arch.lifecycle:extensions:$archVersion"
+
+
+
+    implementation "android.arch.persistence.room:runtime:$archVersion"
+    implementation "android.arch.lifecycle:runtime:$archVersion"
+    implementation "android.arch.lifecycle:extensions:$archVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$archVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$archVersion"
+
 
     //dagger
     compile "com.google.dagger:dagger:$daggerVersion"

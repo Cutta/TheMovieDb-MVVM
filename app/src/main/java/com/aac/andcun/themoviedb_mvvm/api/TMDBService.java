@@ -28,7 +28,7 @@ public interface TMDBService {
     @GET("authentication/session/new")
     Observable<ResponseSessionId> getSessionId(@Query("api_key") String apiKey,
                                                @Query("request_token") String requestToken);
-
+/*
     //TV
     @GET("tv/on_the_air")
     Observable<ResponseResultList<ResultTv>> getTvOnTheAir(@Query("api_key") String apiKey,
@@ -49,34 +49,34 @@ public interface TMDBService {
     Observable<ResponseResultList<ResultTv>> getAiringToday(@Query("api_key") String apiKey,
                                                             @Query("language") String language,
                                                             @Query("page") int page);
-
+*/
     //FILM
 
     @GET("movie/popular")
-    Observable<ResponseResultList<Movie>> getPopularMovie(@Query("api_key") String apiKey,
-                                                          @Query("language") String language,
-                                                          @Query("page") int page);
+    Observable<ResponseResultList> getPopularMovie(@Query("api_key") String apiKey,
+                                                   @Query("language") String language,
+                                                   @Query("page") int page);
 
 
     @GET("movie/popular")
-    LiveData<ApiResponse<List<Movie>>> getPopularM(@Query("api_key") String apiKey,
+    LiveData<ApiResponse<ResponseResultList>> getPopularM(@Query("api_key") String apiKey,
                                                    @Query("language") String language,
                                                    @Query("page") int page);
 
     @GET("movie/top_rated")
-    Observable<ResponseResultList<Movie>> getTopRatedMovie(@Query("api_key") String apiKey,
-                                                           @Query("language") String language,
-                                                           @Query("page") int page);
+    Observable<ResponseResultList> getTopRatedMovie(@Query("api_key") String apiKey,
+                                                    @Query("language") String language,
+                                                    @Query("page") int page);
 
     @GET("movie/upcoming")
-    Observable<ResponseResultList<Movie>> getUpcomingMovie(@Query("api_key") String apiKey,
-                                                           @Query("language") String language,
-                                                           @Query("page") int page);
+    Observable<ResponseResultList> getUpcomingMovie(@Query("api_key") String apiKey,
+                                                    @Query("language") String language,
+                                                    @Query("page") int page);
 
     @GET("movie/now_playing")
-    Observable<ResponseResultList<Movie>> getNowPlayingMovie(@Query("api_key") String apiKey,
-                                                             @Query("language") String language,
-                                                             @Query("page") int page);
+    Observable<ResponseResultList> getNowPlayingMovie(@Query("api_key") String apiKey,
+                                                      @Query("language") String language,
+                                                      @Query("page") int page);
 
     @GET("movie/{movie_id}")
     Observable<Movie> getMovieDetail(@Path("movie_id") int movieId,
@@ -90,19 +90,19 @@ public interface TMDBService {
                                                @Query("language") String language);
 
     @GET("movie/{movie_id}/similar")
-    Observable<ResponseResultList<Movie>> getSimilarMovies(@Path("movie_id") int movieId,
-                                                           @Query("api_key") String apiKey,
-                                                           @Query("language") String language);
+    Observable<ResponseResultList> getSimilarMovies(@Path("movie_id") int movieId,
+                                                    @Query("api_key") String apiKey,
+                                                    @Query("language") String language);
 
     //DISCOVER
     @GET("discover/movie")
-    Observable<ResponseResultList<Movie>> getDiscoverMovie(@Query("api_key") String apiKey,
-                                                           @Query("language") String language,
-                                                           @Query("page") int page);
+    Observable<ResponseResultList> getDiscoverMovie(@Query("api_key") String apiKey,
+                                                    @Query("language") String language,
+                                                    @Query("page") int page);
 
-    @GET("discover/tv")
-    Observable<ResponseResultList<ResultTv>> getDiscoverTv(@Query("api_key") String apiKey,
-                                                           @Query("language") String language,
-                                                           @Query("page") int page);
+//    @GET("discover/tv")
+    //  Observable<ResponseResultList<ResultTv>> getDiscoverTv(@Query("api_key") String apiKey,
+    //                                                       @Query("language") String language,
+    //                                                     @Query("page") int page);
 
 }
