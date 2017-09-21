@@ -27,11 +27,13 @@ public class TMDBApp extends Application implements HasActivityInjector {
         initAppComponent();
     }
 
-
     private void initAppComponent() {
 
         DaggerAppComponent
-                .builder().build().inject(this);
+                .builder()
+                .application(this)
+                .build()
+                .inject(this);
 
     }
 
