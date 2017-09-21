@@ -1,11 +1,15 @@
 package com.aac.andcun.themoviedb_mvvm.api;
 
+import android.arch.lifecycle.LiveData;
+
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseCredits;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseRequestToken;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseResultList;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseSessionId;
 import com.aac.andcun.themoviedb_mvvm.vo.ResultTv;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -52,6 +56,12 @@ public interface TMDBService {
     Observable<ResponseResultList<Movie>> getPopularMovie(@Query("api_key") String apiKey,
                                                           @Query("language") String language,
                                                           @Query("page") int page);
+
+
+    @GET("movie/popular")
+    LiveData<ApiResponse<List<Movie>>> getPopularM(@Query("api_key") String apiKey,
+                                                   @Query("language") String language,
+                                                   @Query("page") int page);
 
     @GET("movie/top_rated")
     Observable<ResponseResultList<Movie>> getTopRatedMovie(@Query("api_key") String apiKey,
