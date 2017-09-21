@@ -12,7 +12,7 @@ import java.util.List;
  * Created by cuneytcarikci on 23/05/2017.
  */
 
-public class ResponseResultList {
+public class PaginationResponse {
 
     @SerializedName("page")
     @Expose
@@ -58,7 +58,6 @@ public class ResponseResultList {
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
-
 
     @NonNull
     public List<Integer> getMovieIds() {

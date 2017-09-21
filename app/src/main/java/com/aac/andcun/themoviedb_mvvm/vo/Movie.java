@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-@Entity(primaryKeys = {"id"})
+@Entity(primaryKeys = {"mId"})
 @TypeConverters(EntityTypeConverters.class)
 public class Movie {
 
@@ -34,7 +34,7 @@ public class Movie {
     private List<Integer> genreIds = null;
     @SerializedName("id")
     @Expose
-    private int id;
+    private int mId;
     @SerializedName("original_title")
     @Expose
     private String originalTitle;
@@ -104,11 +104,11 @@ public class Movie {
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public String getOriginalTitle() {

@@ -1,12 +1,9 @@
 package com.aac.andcun.themoviedb_mvvm.repository;
 
-import com.aac.andcun.themoviedb_mvvm.api.ApiConstants;
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
-import com.aac.andcun.themoviedb_mvvm.vo.ResponseResultList;
 import com.aac.andcun.themoviedb_mvvm.vo.ResultTv;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -31,9 +28,9 @@ public class TvRepository {
         /*
 
         return service.getPopularTv(ApiConstants.API_KEY, Locale.getDefault().getLanguage(), page)
-                .map(new io.reactivex.functions.Function<ResponseResultList<ResultTv>, List<ResultTv>>() {
+                .map(new io.reactivex.functions.Function<PaginationResponse<ResultTv>, List<ResultTv>>() {
                     @Override
-                    public List<ResultTv> apply(ResponseResultList<ResultTv> result) throws Exception {
+                    public List<ResultTv> apply(PaginationResponse<ResultTv> result) throws Exception {
                         return result.getResults();
                     }
                 });
@@ -45,9 +42,9 @@ public class TvRepository {
 
         return null;/*
         return service.getTvOnTheAir(ApiConstants.API_KEY, Locale.getDefault().getLanguage(), page)
-                .map(new io.reactivex.functions.Function<ResponseResultList<ResultTv>, List<ResultTv>>() {
+                .map(new io.reactivex.functions.Function<PaginationResponse<ResultTv>, List<ResultTv>>() {
                     @Override
-                    public List<ResultTv> apply(ResponseResultList<ResultTv> result) throws Exception {
+                    public List<ResultTv> apply(PaginationResponse<ResultTv> result) throws Exception {
                         return result.getResults();
                     }
                 });

@@ -3,15 +3,13 @@ package com.aac.andcun.themoviedb_mvvm.api;
 import android.arch.lifecycle.LiveData;
 
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
+import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseCredits;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseRequestToken;
-import com.aac.andcun.themoviedb_mvvm.vo.ResponseResultList;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseSessionId;
-import com.aac.andcun.themoviedb_mvvm.vo.ResultTv;
-
-import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -31,50 +29,54 @@ public interface TMDBService {
 /*
     //TV
     @GET("tv/on_the_air")
-    Observable<ResponseResultList<ResultTv>> getTvOnTheAir(@Query("api_key") String apiKey,
+    Observable<PaginationResponse<ResultTv>> getTvOnTheAir(@Query("api_key") String apiKey,
                                                            @Query("language") String language,
                                                            @Query("page") int page);
 
     @GET("tv/popular")
-    Observable<ResponseResultList<ResultTv>> getPopularTv(@Query("api_key") String apiKey,
+    Observable<PaginationResponse<ResultTv>> getPopularTv(@Query("api_key") String apiKey,
                                                           @Query("language") String language,
                                                           @Query("page") int page);
 
     @GET("tv/top_rated")
-    Observable<ResponseResultList<ResultTv>> getTopRatedTv(@Query("api_key") String apiKey,
+    Observable<PaginationResponse<ResultTv>> getTopRatedTv(@Query("api_key") String apiKey,
                                                            @Query("language") String language,
                                                            @Query("page") int page);
 
     @GET("tv/airing_today")
-    Observable<ResponseResultList<ResultTv>> getAiringToday(@Query("api_key") String apiKey,
+    Observable<PaginationResponse<ResultTv>> getAiringToday(@Query("api_key") String apiKey,
                                                             @Query("language") String language,
                                                             @Query("page") int page);
 */
     //FILM
 
     @GET("movie/popular")
-    Observable<ResponseResultList> getPopularMovie(@Query("api_key") String apiKey,
+    Observable<PaginationResponse> getPopularMovie(@Query("api_key") String apiKey,
                                                    @Query("language") String language,
                                                    @Query("page") int page);
 
 
     @GET("movie/popular")
-    LiveData<ApiResponse<ResponseResultList>> getPopularM(@Query("api_key") String apiKey,
-                                                   @Query("language") String language,
-                                                   @Query("page") int page);
+    LiveData<ApiResponse<PaginationResponse>> getPopularM(@Query("api_key") String apiKey,
+                                                          @Query("language") String language);
+
+    @GET("movie/popular")
+    Call<PaginationResponse> getPopularM(@Query("api_key") String apiKey,
+                                         @Query("language") String language,
+                                         @Query("page") int page);
 
     @GET("movie/top_rated")
-    Observable<ResponseResultList> getTopRatedMovie(@Query("api_key") String apiKey,
+    Observable<PaginationResponse> getTopRatedMovie(@Query("api_key") String apiKey,
                                                     @Query("language") String language,
                                                     @Query("page") int page);
 
     @GET("movie/upcoming")
-    Observable<ResponseResultList> getUpcomingMovie(@Query("api_key") String apiKey,
+    Observable<PaginationResponse> getUpcomingMovie(@Query("api_key") String apiKey,
                                                     @Query("language") String language,
                                                     @Query("page") int page);
 
     @GET("movie/now_playing")
-    Observable<ResponseResultList> getNowPlayingMovie(@Query("api_key") String apiKey,
+    Observable<PaginationResponse> getNowPlayingMovie(@Query("api_key") String apiKey,
                                                       @Query("language") String language,
                                                       @Query("page") int page);
 
@@ -90,18 +92,18 @@ public interface TMDBService {
                                                @Query("language") String language);
 
     @GET("movie/{movie_id}/similar")
-    Observable<ResponseResultList> getSimilarMovies(@Path("movie_id") int movieId,
+    Observable<PaginationResponse> getSimilarMovies(@Path("movie_id") int movieId,
                                                     @Query("api_key") String apiKey,
                                                     @Query("language") String language);
 
     //DISCOVER
     @GET("discover/movie")
-    Observable<ResponseResultList> getDiscoverMovie(@Query("api_key") String apiKey,
+    Observable<PaginationResponse> getDiscoverMovie(@Query("api_key") String apiKey,
                                                     @Query("language") String language,
                                                     @Query("page") int page);
 
 //    @GET("discover/tv")
-    //  Observable<ResponseResultList<ResultTv>> getDiscoverTv(@Query("api_key") String apiKey,
+    //  Observable<PaginationResponse<ResultTv>> getDiscoverTv(@Query("api_key") String apiKey,
     //                                                       @Query("language") String language,
     //                                                     @Query("page") int page);
 

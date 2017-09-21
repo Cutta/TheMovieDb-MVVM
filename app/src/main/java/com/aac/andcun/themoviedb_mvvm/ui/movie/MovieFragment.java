@@ -1,5 +1,7 @@
 package com.aac.andcun.themoviedb_mvvm.ui.movie;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -28,19 +30,26 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
     }
 
     @Override
-    protected void setUpUiComponents() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setUpViewPager();
+    }
 
+    private void setUpViewPager() {
         adapter = new MoviePagerAdapter(getFragmentManager());
 
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(3);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-
     }
 
     private class MoviePagerAdapter extends FragmentStatePagerAdapter {
 
-        private static final int TAB_COUNT = 3;
+        private String[] mTitles = new String[] {
+                "POPULAR",
+                "NOW PLAYING",
+                "UPCOMING"
+        };
 
         MoviePagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -53,26 +62,14 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String title = "";
-            switch (position) {
-                case 0:
-                    title = "POPULAR";
-                    break;
-                case 1:
-                    title = "NOW PLAYING";
-                    break;
-
-                case 2:
-                    title = "UPCOMING";
-                    break;
-            }
-            return title;
+            return mTitles[position];
         }
 
         @Override
         public int getCount() {
-            return TAB_COUNT;
+            return 1;
         }
+
     }
 
 }

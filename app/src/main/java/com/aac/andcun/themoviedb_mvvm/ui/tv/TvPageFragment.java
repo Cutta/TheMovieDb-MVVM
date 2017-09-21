@@ -55,53 +55,15 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        Observable<List<ResultTv>> observable = null;
-
-        switch (position) {
-            case 0:
-                observable = repository.getPopularTvs(1);
-                break;
-
-            case 1:
-                observable = repository.getOnTheAirTvs(1);
-                break;
-
-        }
-
-
-        observable
-                .compose(RxTransformer.<List<ResultTv>>applyIOSchedulers())
-                .subscribe(new Consumer<List<ResultTv>>() {
-                    @Override
-                    public void accept(List<ResultTv> ResultTvs) throws Exception {
-                        Log.e("MoviePageFragment", "Count: " + ResultTvs.size());
-                        adapter.addtvList(ResultTvs);
-                        binding.executePendingBindings();
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+        setUpRecyclerView();
     }
 
     @Override
     protected int getLayoutId() {
-
         return R.layout.fragment_tv_page;
     }
 
-    @Override
-    protected void resolveDaggerDependency() {
-
-    }
-
-    @Override
-    protected void setUpUiComponents() {
+    private void setUpRecyclerView() {
         adapter = new TvAdapter();
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(getResources().getDimensionPixelSize(R.dimen.movie_tv_item_margin)));
@@ -114,4 +76,5 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
             }
         });
     }
+
 }

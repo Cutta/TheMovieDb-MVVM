@@ -31,9 +31,9 @@ public abstract class MovieDao {
     public abstract LiveData<PaginationResult> search(String type);
 
     @Query("SELECT * FROM PaginationResult WHERE type = :type")
-    public abstract PaginationResult findSearchResult(String type);
+    public abstract PaginationResult findPaginationResult(String type);
 
-    @Query("SELECT * FROM Movie WHERE id in (:movieIds)")
+    @Query("SELECT * FROM Movie WHERE mId in (:movieIds)")
     public abstract LiveData<List<Movie>> loadById(List<Integer> movieIds);
 
 }

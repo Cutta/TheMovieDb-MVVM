@@ -1,6 +1,5 @@
 package com.aac.andcun.themoviedb_mvvm.ui.base;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -10,9 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.aac.andcun.themoviedb_mvvm.TMDBApp;
-import com.aac.andcun.themoviedb_mvvm.di.app.AppComponent;
 
 import dagger.android.support.AndroidSupportInjection;
 
@@ -37,21 +33,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        resolveDaggerDependency();
-        setUpUiComponents();
-    }
-
-    protected void resolveDaggerDependency() {
-
-    }
-
     @LayoutRes
     protected abstract int getLayoutId();
-
-    protected abstract void setUpUiComponents();
-
 
 }

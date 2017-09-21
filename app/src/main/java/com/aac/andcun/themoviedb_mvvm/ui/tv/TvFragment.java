@@ -1,5 +1,7 @@
 package com.aac.andcun.themoviedb_mvvm.ui.tv;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,13 +24,16 @@ public class TvFragment extends BaseFragment<FragmentTvBinding> {
     }
 
     @Override
-    protected void setUpUiComponents() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setUpViewPager();
+    }
 
+    private void setUpViewPager() {
         adapter = new TvPagerAdapter(getFragmentManager());
 
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-
     }
 
     private class TvPagerAdapter extends FragmentStatePagerAdapter {

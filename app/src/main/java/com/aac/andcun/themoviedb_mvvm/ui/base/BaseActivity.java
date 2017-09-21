@@ -30,7 +30,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,getLayoutId());
+        binding = DataBindingUtil.setContentView(this, getLayoutId());
         resolveDaggerDependency();
         setUpUiComponents();
     }
@@ -41,12 +41,12 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     protected void resolveDaggerDependency() {
+    }
 
+    protected void setUpUiComponents() {
     }
 
     @LayoutRes
     protected abstract int getLayoutId();
-
-    protected abstract void setUpUiComponents();
 
 }
