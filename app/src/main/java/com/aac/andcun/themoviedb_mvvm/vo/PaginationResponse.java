@@ -12,14 +12,14 @@ import java.util.List;
  * Created by cuneytcarikci on 23/05/2017.
  */
 
-public class PaginationResponse {
+public class PaginationResponse<T extends Id> {
 
     @SerializedName("page")
     @Expose
     private int page;
     @SerializedName("results")
     @Expose
-    private List<Movie> results = null;
+    private List<T> results = null;
     @SerializedName("total_results")
     @Expose
     private int totalResults;
@@ -35,11 +35,11 @@ public class PaginationResponse {
         this.page = page;
     }
 
-    public List<Movie> getResults() {
+    public List<T> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(List<T> results) {
         this.results = results;
     }
 
@@ -61,11 +61,11 @@ public class PaginationResponse {
 
     @NonNull
     public List<Integer> getMovieIds() {
-        List<Integer> movieIds = new ArrayList<>();
-        for (Movie movie : results) {
-            movieIds.add(movie.getId());
+        List<Integer> ids = new ArrayList<>();
+        for (Id id : results) {
+            ids.add(id.getId());
         }
-        return movieIds;
+        return ids;
     }
 
     public Integer getNextPage() {

@@ -1,6 +1,9 @@
-
 package com.aac.andcun.themoviedb_mvvm.vo;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.TypeConverters;
+
+import com.aac.andcun.themoviedb_mvvm.db.EntityTypeConverters;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ResultTv {
+@Entity(primaryKeys = {"mId"})
+@TypeConverters(EntityTypeConverters.class)
+public class Tv extends Id {
 
     @SerializedName("poster_path")
     @Expose
@@ -17,9 +22,6 @@ public class ResultTv {
     @SerializedName("popularity")
     @Expose
     private Double popularity;
-    @SerializedName("id")
-    @Expose
-    private int id;
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
@@ -34,10 +36,10 @@ public class ResultTv {
     private Date firstAirDate;
     @SerializedName("origin_country")
     @Expose
-    private List<String> originCountry = null;
+    private List<String> originCountry;
     @SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds = null;
+    private List<Integer> genreIds;
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
@@ -65,14 +67,6 @@ public class ResultTv {
 
     public void setPopularity(Double popularity) {
         this.popularity = popularity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getBackdropPath() {
@@ -155,8 +149,13 @@ public class ResultTv {
         this.originalName = originalName;
     }
 
-    public String getDateFormatted(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-        return formatter.format(firstAirDate);
+    public String getDateFormatted() {
+        if (firstAirDate == null)
+            return "";
+        else {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            return formatter.format(firstAirDate);
+        }
     }
+
 }

@@ -1,6 +1,5 @@
 package com.aac.andcun.themoviedb_mvvm.di.app;
 
-import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.ui.main.MainActivity;
 
 import dagger.Module;

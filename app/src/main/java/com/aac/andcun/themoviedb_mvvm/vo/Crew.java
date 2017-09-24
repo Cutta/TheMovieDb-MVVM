@@ -1,4 +1,3 @@
-
 package com.aac.andcun.themoviedb_mvvm.vo;
 
 import com.google.gson.annotations.Expose;

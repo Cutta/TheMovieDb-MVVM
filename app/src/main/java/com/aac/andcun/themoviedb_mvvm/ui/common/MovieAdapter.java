@@ -27,7 +27,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         this.mMovieList = new ArrayList<>();
     }
 
-    public void addMovieList(final List<Movie> movieList) {
+    public void updateMovieList(final List<Movie> movieList) {
         this.mMovieList = movieList;
         notifyDataSetChanged();
         /*if (mMovieList == null || mMovieList.isEmpty()) {

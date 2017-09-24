@@ -11,16 +11,14 @@ import com.aac.andcun.themoviedb_mvvm.vo.Resource;
  * Created by andani on 22.09.2017.
  */
 
-public class NextPageHandler implements Observer<Resource<Boolean>> {
+public abstract class NextPageHandler implements Observer<Resource<Boolean>> {
 
     private LiveData<Resource<Boolean>> nextPageLiveData;
     private MutableLiveData<LoadMoreState> loadMoreState;
-    private MovieRepository movieRepository;
     private boolean hasMore = true;
     private boolean isRunning;
 
-    public NextPageHandler(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    public NextPageHandler() {
         this.loadMoreState = new MutableLiveData<>();
         reset();
     }
@@ -30,7 +28,7 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
             return;
         unregister();
         isRunning = true;
-        nextPageLiveData = movieRepository.loadNextPopularMoviesPage();
+        nextPageLiveData = createNextPageCall();
         loadMoreState.setValue(new LoadMoreState(isRunning, null));
         nextPageLiveData.observeForever(this);
     }
@@ -71,6 +69,8 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
             nextPageLiveData = null;
         }
     }
+
+    public abstract LiveData<Resource<Boolean>> createNextPageCall();
 
     public static class LoadMoreState {
 

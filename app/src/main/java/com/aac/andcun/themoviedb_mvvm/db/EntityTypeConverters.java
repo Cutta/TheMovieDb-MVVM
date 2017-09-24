@@ -2,7 +2,9 @@ package com.aac.andcun.themoviedb_mvvm.db;
 
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.util.StringUtil;
+import android.text.TextUtils;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -15,15 +17,26 @@ public class EntityTypeConverters {
 
     @TypeConverter
     public static List<Integer> stringToIntList(String data) {
-        if (data == null) {
+        if (data == null)
             return Collections.emptyList();
-        }
         return StringUtil.splitToIntList(data);
     }
 
     @TypeConverter
     public static String intListToString(List<Integer> ints) {
         return StringUtil.joinIntoString(ints);
+    }
+
+    @TypeConverter
+    public static List<String> stringToStringList(String data) {
+        if (data == null)
+            return Collections.emptyList();
+        return Arrays.asList(data.split("@@@"));
+    }
+
+    @TypeConverter
+    public static String stringListToString(List<String> strings) {
+        return TextUtils.join("@@@", strings);
     }
 
     @TypeConverter

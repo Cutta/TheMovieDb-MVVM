@@ -1,4 +1,3 @@
-
 package com.aac.andcun.themoviedb_mvvm.vo;
 
 import android.arch.persistence.room.Entity;
@@ -15,7 +14,7 @@ import java.util.Locale;
 
 @Entity(primaryKeys = {"mId"})
 @TypeConverters(EntityTypeConverters.class)
-public class Movie {
+public class Movie extends Id {
 
     @SerializedName("poster_path")
     @Expose
@@ -32,9 +31,6 @@ public class Movie {
     @SerializedName("genre_ids")
     @Expose
     private List<Integer> genreIds = null;
-    @SerializedName("id")
-    @Expose
-    private int mId;
     @SerializedName("original_title")
     @Expose
     private String originalTitle;
@@ -103,14 +99,6 @@ public class Movie {
         this.genreIds = genreIds;
     }
 
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
-        this.mId = id;
-    }
-
     public String getOriginalTitle() {
         return originalTitle;
     }
@@ -175,8 +163,8 @@ public class Movie {
         this.voteAverage = voteAverage;
     }
 
-    public String getDateFormatted(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy",Locale.getDefault());
+    public String getDateFormatted() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         return formatter.format(releaseDate);
     }
 

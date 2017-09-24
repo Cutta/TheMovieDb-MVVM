@@ -25,6 +25,7 @@ import static com.aac.andcun.themoviedb_mvvm.vo.Status.SUCCESS;
 
 /**
  * A generic class that holds a value with its loading status.
+ *
  * @param <T>
  */
 public class Resource<T> {

@@ -30,20 +30,18 @@ import javax.inject.Inject;
 
 public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
 
-    private static final String ARG_POSITION = "position";
+    private static final String ARG_MOVIE_LIST_TYPE_ORDINAL = MoviePageFragment.class.getSimpleName() + ".arg_movie_list_type_ordinal";
 
     @Inject
     MovieRepository repository;
 
-    MovieAdapter mAdapter;
-    NextPageHandler mNextPageHandler;
+    private MovieAdapter adapter;
+    private NextPageHandler nextPageHandler;
+    private MovieRepository.MovieListType movieListType;
 
-    int position;
-
-    public static MoviePageFragment newInstance(int position) {
-
+    public static MoviePageFragment newInstance(MovieRepository.MovieListType movieListType) {
         Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
+        args.putInt(ARG_MOVIE_LIST_TYPE_ORDINAL, movieListType.ordinal());
         MoviePageFragment fragment = new MoviePageFragment();
         fragment.setArguments(args);
         return fragment;
@@ -52,13 +50,12 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
+        movieListType = MovieRepository.MovieListType.values()[getArguments().getInt(ARG_MOVIE_LIST_TYPE_ORDINAL, 0)];
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         setUpRecyclerView();
         setUpNextPageHandler();
     }
@@ -69,31 +66,13 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     }
 
     private void setUpRecyclerView() {
-        LiveData<Resource<List<Movie>>> resourceLiveData;
-
-        switch (position) {
-            case 0:
-                resourceLiveData = repository.getPopularMovies();
-                break;
-
-            case 1:
-                resourceLiveData = repository.getPopularMovies();
-                break;
-
-            case 2:
-                resourceLiveData = repository.getPopularMovies();
-                break;
-
-            default:
-                resourceLiveData = repository.getPopularMovies();
-                break;
-        }
+        LiveData<Resource<List<Movie>>> resourceLiveData = repository.getMovies(movieListType);
 
         resourceLiveData.observe(this, new Observer<Resource<List<Movie>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Movie>> listResource) {
                 if (listResource != null && listResource.data != null) {
-                    mAdapter.addMovieList(listResource.data);
+                    adapter.updateMovieList(listResource.data);
                     binding.executePendingBindings();
                 }
             }
@@ -103,19 +82,19 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int lastPosition = layoutManager.findLastVisibleItemPosition();
-                if (lastPosition == mAdapter.getItemCount() - 1)
-                    mNextPageHandler.loadNextPage();
+                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+                int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+                if (lastVisiblePosition == adapter.getItemCount() - 1)
+                    nextPageHandler.loadNextPage();
             }
         });
 
-        mAdapter = new MovieAdapter();
+        adapter = new MovieAdapter();
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(getResources().getDimensionPixelSize(R.dimen.movie_tv_item_margin)));
-        binding.recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setAdapter(adapter);
 
-        mAdapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, Movie item) {
                 startActivity(MovieDetailActivity.newIntent(getActivity(), item.getId()));
@@ -124,9 +103,14 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     }
 
     private void setUpNextPageHandler() {
-        mNextPageHandler = new NextPageHandler(repository);
+        nextPageHandler = new NextPageHandler() {
+            @Override
+            public LiveData<Resource<Boolean>> createNextPageCall() {
+                return repository.fetchNextPage(movieListType);
+            }
+        };
 
-        mNextPageHandler.getLoadMoreState().observe(this, new Observer<NextPageHandler.LoadMoreState>() {
+        nextPageHandler.getLoadMoreState().observe(this, new Observer<NextPageHandler.LoadMoreState>() {
             @Override
             public void onChanged(@Nullable NextPageHandler.LoadMoreState loadMoreState) {
                 if (loadMoreState == null)

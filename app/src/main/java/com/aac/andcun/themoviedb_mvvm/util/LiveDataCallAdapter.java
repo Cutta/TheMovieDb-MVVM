@@ -19,7 +19,6 @@ package com.aac.andcun.themoviedb_mvvm.util;
 
 import android.arch.lifecycle.LiveData;
 
-
 import com.aac.andcun.themoviedb_mvvm.api.ApiResponse;
 
 import java.lang.reflect.Type;
@@ -32,10 +31,12 @@ import retrofit2.Response;
 
 /**
  * A Retrofit adapterthat converts the Call into a LiveData of ApiResponse.
+ *
  * @param <R>
  */
 public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
     private final Type responseType;
+
     public LiveDataCallAdapter(Type responseType) {
         this.responseType = responseType;
     }
@@ -49,6 +50,7 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiRespon
     public LiveData<ApiResponse<R>> adapt(final Call<R> call) {
         return new LiveData<ApiResponse<R>>() {
             AtomicBoolean started = new AtomicBoolean(false);
+
             @Override
             protected void onActive() {
                 super.onActive();

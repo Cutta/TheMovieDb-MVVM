@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.FragmentTvBinding;
+import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 
 /**
@@ -17,6 +18,7 @@ import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 public class TvFragment extends BaseFragment<FragmentTvBinding> {
 
     TvPagerAdapter adapter;
+    TvRepository.TvListType[] tvListTypes;
 
     @Override
     protected int getLayoutId() {
@@ -31,14 +33,15 @@ public class TvFragment extends BaseFragment<FragmentTvBinding> {
 
     private void setUpViewPager() {
         adapter = new TvPagerAdapter(getFragmentManager());
+        tvListTypes = TvRepository.TvListType.values();
 
         binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setOffscreenPageLimit(tvListTypes.length);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
 
     private class TvPagerAdapter extends FragmentStatePagerAdapter {
 
-        private static final int TAB_COUNT = 2;
 
         TvPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -46,26 +49,18 @@ public class TvFragment extends BaseFragment<FragmentTvBinding> {
 
         @Override
         public Fragment getItem(int position) {
-            return TvPageFragment.newInstance(position);
+            return TvPageFragment.newInstance(tvListTypes[position]);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String title = "";
-            switch (position) {
-                case 0:
-                    title = "POPULAR";
-                    break;
-                case 1:
-                    title = "ON THE AIR";
-                    break;
-            }
-            return title;
+            return tvListTypes[position].getTitle();
         }
 
         @Override
         public int getCount() {
-            return TAB_COUNT;
+            return tvListTypes.length;
         }
+
     }
 }

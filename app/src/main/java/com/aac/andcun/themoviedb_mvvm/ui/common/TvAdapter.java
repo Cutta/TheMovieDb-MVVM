@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aac.andcun.themoviedb_mvvm.databinding.ItemTvBinding;
-import com.aac.andcun.themoviedb_mvvm.vo.ResultTv;
+import com.aac.andcun.themoviedb_mvvm.vo.Tv;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +19,15 @@ import java.util.List;
 
 public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
 
-    private List<ResultTv> tvList;
+    private List<Tv> tvList;
     private TvAdapter.OnItemClickListener onItemClickListener;
 
     public TvAdapter() {
         this.tvList = new ArrayList<>();
     }
 
-    public void addtvList(List<ResultTv> tvList) {
-        List<ResultTv> sumList = this.tvList;
-        sumList.addAll(tvList);
+    public void updateTvList(List<Tv> tvList) {
+        this.tvList = tvList;
         notifyDataSetChanged();
     }
 
@@ -40,7 +39,6 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
 
     @Override
     public void onBindViewHolder(final TvViewHolder holder, int position) {
-
         holder.getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +48,7 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
             }
         });
 
-        ResultTv movie = tvList.get(position);
+        Tv movie = tvList.get(position);
         holder.bind(movie);
     }
 
@@ -73,10 +71,11 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
 
         }
 
-        void bind(ResultTv ResultTv) {
-            binding.setTv(ResultTv);
+        void bind(Tv Tv) {
+            binding.setTv(Tv);
             binding.executePendingBindings();
         }
+
         public ViewDataBinding getBinding() {
             return binding;
         }
@@ -84,7 +83,7 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, ResultTv item);
+        void onItemClick(int position, Tv item);
     }
 
 }

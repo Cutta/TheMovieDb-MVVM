@@ -3,7 +3,6 @@ package com.aac.andcun.themoviedb_mvvm;
 import android.app.Activity;
 import android.app.Application;
 
-
 import com.aac.andcun.themoviedb_mvvm.di.app.DaggerAppComponent;
 
 import javax.inject.Inject;

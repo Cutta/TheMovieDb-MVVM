@@ -3,38 +3,30 @@ package com.aac.andcun.themoviedb_mvvm.repository;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.aac.andcun.themoviedb_mvvm.api.ApiConstants;
 import com.aac.andcun.themoviedb_mvvm.api.ApiResponse;
-import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
-import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
+import com.aac.andcun.themoviedb_mvvm.vo.Id;
+import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResult;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
+import retrofit2.Call;
 import retrofit2.Response;
 
 /**
  * Created by andani on 22.09.2017.
  */
 
-public class FetchNextPageTask implements Runnable {
+public abstract class FetchNextPageTask<T extends Id> implements Runnable {
 
-    private TMDBDb mDb;
-    private TMDBService mTMDBService;
     private MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
-
-    public FetchNextPageTask(TMDBDb db, TMDBService tmdbService) {
-        this.mDb = db;
-        this.mTMDBService = tmdbService;
-    }
 
     @Override
     public void run() {
-        PaginationResult paginationResult = mDb.movieDao().findPaginationResult(MovieRepository.type);
+        PaginationResult paginationResult = loadPaginationResultFromDb();
         if (paginationResult == null) {
             liveData.postValue(null);
             return;
@@ -45,36 +37,34 @@ public class FetchNextPageTask implements Runnable {
             return;
         }
         try {
-            Response<PaginationResponse> response = mTMDBService.getPopularM(ApiConstants.API_KEY, Locale.getDefault().getLanguage(), nextPage).execute();
-            ApiResponse<PaginationResponse> apiResponse = new ApiResponse<>(response);
+            Response<PaginationResponse<T>> response = createCall(paginationResult.next).execute();
+            ApiResponse<PaginationResponse<T>> apiResponse = new ApiResponse<>(response);
             if (apiResponse.isSuccessful() && apiResponse.body != null) {
                 List<Integer> movieIds = new ArrayList<>();
                 movieIds.addAll(paginationResult.ids);
                 movieIds.addAll(apiResponse.body.getMovieIds());
 
-                PaginationResult newPaginationResult = new PaginationResult(MovieRepository.type, movieIds,
+                PaginationResult newPaginationResult = new PaginationResult(paginationResult.type, movieIds,
                         apiResponse.body.getTotalResults(), apiResponse.body.getNextPage());
 
-                try {
-                    mDb.beginTransaction();
-                    mDb.movieDao().insertMovies(apiResponse.body.getResults());
-                    mDb.movieDao().insert(newPaginationResult);
-                    mDb.setTransactionSuccessful();
-                } finally {
-                    mDb.endTransaction();
-                }
-
+                saveCallResult(newPaginationResult, apiResponse.body.getResults());
                 liveData.postValue(Resource.success(apiResponse.body.getNextPage() != null));
             } else {
                 liveData.postValue(Resource.error(apiResponse.errorMessage, true));
             }
         } catch (Exception e) {
-            liveData.setValue(Resource.error(e.getMessage(), true));
+            liveData.postValue(Resource.error(e.getMessage(), true));
         }
     }
 
     LiveData<Resource<Boolean>> getLiveData() {
         return liveData;
     }
+
+    abstract PaginationResult loadPaginationResultFromDb();
+
+    abstract Call<PaginationResponse<T>> createCall(Integer nextPage);
+
+    abstract void saveCallResult(PaginationResult paginationResult, List<T> newData);
 
 }

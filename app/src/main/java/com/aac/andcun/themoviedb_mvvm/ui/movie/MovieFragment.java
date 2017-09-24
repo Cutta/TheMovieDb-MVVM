@@ -11,18 +11,14 @@ import com.aac.andcun.themoviedb_mvvm.databinding.FragmentMovieBinding;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 
-import javax.inject.Inject;
-
 /**
  * Created by cuneytcarikci on 24/07/2017.
  */
 
 public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
 
-    @Inject
-    MovieRepository movieRepository;
-
     MoviePagerAdapter adapter;
+    MovieRepository.MovieListType[] movieListTypes;
 
     @Override
     protected int getLayoutId() {
@@ -37,19 +33,14 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
 
     private void setUpViewPager() {
         adapter = new MoviePagerAdapter(getFragmentManager());
+        movieListTypes = MovieRepository.MovieListType.values();
 
         binding.viewPager.setAdapter(adapter);
-        binding.viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.setOffscreenPageLimit(movieListTypes.length);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
 
     private class MoviePagerAdapter extends FragmentStatePagerAdapter {
-
-        private String[] mTitles = new String[] {
-                "POPULAR",
-                "NOW PLAYING",
-                "UPCOMING"
-        };
 
         MoviePagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -57,17 +48,17 @@ public class MovieFragment extends BaseFragment<FragmentMovieBinding> {
 
         @Override
         public Fragment getItem(int position) {
-            return MoviePageFragment.newInstance(position);
+            return MoviePageFragment.newInstance(movieListTypes[position]);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTitles[position];
+            return movieListTypes[position].getTitle();
         }
 
         @Override
         public int getCount() {
-            return 1;
+            return movieListTypes.length;
         }
 
     }

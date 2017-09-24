@@ -4,15 +4,15 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
+import com.aac.andcun.themoviedb_mvvm.db.DateTypeAdapter;
 import com.aac.andcun.themoviedb_mvvm.db.MovieDao;
 import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
-import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
-import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
-import com.aac.andcun.themoviedb_mvvm.util.AppExecutors;
+import com.aac.andcun.themoviedb_mvvm.db.TvDao;
 import com.aac.andcun.themoviedb_mvvm.util.LiveDataCallAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -21,7 +21,6 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.aac.andcun.themoviedb_mvvm.api.ApiConstants.BASE_URL;
@@ -36,7 +35,10 @@ public class AppModule {
     @Singleton
     @Provides
     Gson provideGson() {
-        return new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        return new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .create();
     }
 
     @Singleton
@@ -77,22 +79,10 @@ public class AppModule {
         return db.movieDao();
     }
 
-    /*@Singleton
-    @Provides
-    AppExecutors provideAppExecutors() {
-        return new AppExecutors();
-    }*/
-
-    /*@Singleton
-    @Provides
-    MovieRepository provideMovieRepository(TMDBService service, MovieDao movieDao, AppExecutors appExecutors) {
-        return new MovieRepository(service, movieDao, appExecutors);
-    }
-
     @Singleton
     @Provides
-    TvRepository provideTvRepository(TMDBService service) {
-        return new TvRepository(service);
-    }*/
+    TvDao provideTvDao(TMDBDb db) {
+        return db.tvDao();
+    }
 
 }

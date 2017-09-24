@@ -37,15 +37,11 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
 
     //arch
-
-
-
     implementation "android.arch.persistence.room:runtime:$archVersion"
     implementation "android.arch.lifecycle:runtime:$archVersion"
     implementation "android.arch.lifecycle:extensions:$archVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$archVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$archVersion"
-
 
     //dagger
     compile "com.google.dagger:dagger:$daggerVersion"
@@ -70,5 +66,4 @@ dependencies {
     //glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.2'
-
 }
