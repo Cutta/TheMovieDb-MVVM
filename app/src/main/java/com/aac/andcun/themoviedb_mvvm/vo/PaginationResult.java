@@ -23,7 +23,7 @@ public class PaginationResult {
     public final Integer next;
 
     public PaginationResult(String type, List<Integer> ids, int totalCount,
-                            Integer next) {
+                            @Nullable Integer next) {
         this.type = type;
         this.ids = ids;
         this.totalCount = totalCount;

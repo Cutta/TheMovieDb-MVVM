@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
+import com.aac.andcun.themoviedb_mvvm.db.CreditDao;
 import com.aac.andcun.themoviedb_mvvm.db.DateTypeAdapter;
 import com.aac.andcun.themoviedb_mvvm.db.MovieDao;
 import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
@@ -83,6 +84,12 @@ public class AppModule {
     @Provides
     TvDao provideTvDao(TMDBDb db) {
         return db.tvDao();
+    }
+
+    @Singleton
+    @Provides
+    CreditDao provideCreditDao(TMDBDb db) {
+        return db.creditDao();
     }
 
 }

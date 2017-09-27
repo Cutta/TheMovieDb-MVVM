@@ -113,6 +113,12 @@ public interface TMDBService {
     //
 
 
+    @GET("movie/{movie_id}/credits")
+    LiveData<ApiResponse<ResponseCredits>> getCredits(@Path("movie_id") int movieId,
+                                               @Query("api_key") String apiKey,
+                                               @Query("language") String language);
+
+
     @GET("movie/{movie_id}")
     Observable<Movie> getMovieDetail(@Path("movie_id") int movieId,
                                      @Query("api_key") String apiKey,

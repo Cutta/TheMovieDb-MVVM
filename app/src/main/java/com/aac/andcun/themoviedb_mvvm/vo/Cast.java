@@ -1,9 +1,11 @@
 package com.aac.andcun.themoviedb_mvvm.vo;
 
+import android.arch.persistence.room.Entity;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-public class Cast {
+@Entity(primaryKeys = {"id"})
+public class Cast extends People{
 
     @SerializedName("cast_id")
     @Expose
@@ -20,15 +22,10 @@ public class Cast {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
     @SerializedName("order")
     @Expose
     private Integer order;
-    @SerializedName("profile_path")
-    @Expose
-    private Object profilePath;
+
 
     public Integer getCastId() {
         return castId;
@@ -70,13 +67,6 @@ public class Cast {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Integer getOrder() {
         return order;
@@ -86,12 +76,5 @@ public class Cast {
         this.order = order;
     }
 
-    public Object getProfilePath() {
-        return profilePath;
-    }
-
-    public void setProfilePath(Object profilePath) {
-        this.profilePath = profilePath;
-    }
 
 }

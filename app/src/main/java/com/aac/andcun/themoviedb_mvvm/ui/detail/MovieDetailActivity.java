@@ -5,12 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.ActivityMovieDetailBinding;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
+import com.aac.andcun.themoviedb_mvvm.vo.Cast;
+import com.aac.andcun.themoviedb_mvvm.vo.Credit;
+import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
 import com.aac.andcun.themoviedb_mvvm.vo.Status;
@@ -48,6 +53,13 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                 Log.d("TAG", "onChanged: " + movieResource.message);
             }
         });
+
+        movieRepository.getCredits(getMovieId()).observe(this, new Observer<Resource<Credit>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Credit> creditResource) {
+                Log.d("onChanged", "onChanged: ");
+            }
+        });
     }
 
     @Override
@@ -57,6 +69,31 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
 
     @Override
     protected void setUpUiComponents() {
+
+        MoviePeopleAdapter<Cast> castMoviePeopleAdapter = new MoviePeopleAdapter<>();
+        MoviePeopleAdapter<Crew> crewMoviePeopleAdapter = new MoviePeopleAdapter<>();
+
+        binding.rvCast.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.rvCrew.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        binding.rvCast.setAdapter(castMoviePeopleAdapter);
+        binding.rvCrew.setAdapter(crewMoviePeopleAdapter);
+
+
+        castMoviePeopleAdapter.setOnItemClickListener(new MoviePeopleAdapter.OnItemClickListener<Cast>() {
+            @Override
+            public void onItemClick(int position, Cast item) {
+                Toast.makeText(MovieDetailActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        crewMoviePeopleAdapter.setOnItemClickListener(new MoviePeopleAdapter.OnItemClickListener<Crew>() {
+            @Override
+            public void onItemClick(int position, Crew item) {
+                Toast.makeText(MovieDetailActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 

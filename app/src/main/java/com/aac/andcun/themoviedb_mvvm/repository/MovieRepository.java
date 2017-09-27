@@ -2,6 +2,7 @@ package com.aac.andcun.themoviedb_mvvm.repository;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,10 +10,14 @@ import android.support.annotation.Nullable;
 import com.aac.andcun.themoviedb_mvvm.api.ApiConstants;
 import com.aac.andcun.themoviedb_mvvm.api.ApiResponse;
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
+import com.aac.andcun.themoviedb_mvvm.db.CreditDao;
 import com.aac.andcun.themoviedb_mvvm.db.MovieDao;
 import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
 import com.aac.andcun.themoviedb_mvvm.util.AbsentLiveData;
 import com.aac.andcun.themoviedb_mvvm.util.AppExecutors;
+import com.aac.andcun.themoviedb_mvvm.vo.Cast;
+import com.aac.andcun.themoviedb_mvvm.vo.Credit;
+import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResult;
@@ -64,15 +69,17 @@ public class MovieRepository {
 
     private TMDBDb db;
     private MovieDao movieDao;
+    private CreditDao creditDao;
     private TMDBService service;
     private AppExecutors appExecutors;
 
 
     @Inject
-    public MovieRepository(TMDBDb db, TMDBService service, MovieDao movieDao, AppExecutors appExecutors) {
+    public MovieRepository(TMDBDb db, TMDBService service, MovieDao movieDao, CreditDao creditDao, AppExecutors appExecutors) {
         this.db = db;
         this.service = service;
         this.movieDao = movieDao;
+        this.creditDao = creditDao;
         this.appExecutors = appExecutors;
     }
 
@@ -208,12 +215,79 @@ public class MovieRepository {
         return service.getMovieDetail(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
     }
 
-    public Observable<ResponseCredits> getCredits(int movieId) {
-        return service.getMovieCredit(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
-    }
+    // public Observable<ResponseCredits> getCredits(int movieId) {
+    //   return service.getMovieCredit(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+    //}
 
     public Observable<PaginationResponse> getSimilars(int movieId) {
         return service.getSimilarMovies(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+    }
+
+    public LiveData<Resource<Credit>> getCredits(final int movieId) {
+        return new NetworkBoundResource<Credit, ResponseCredits>(appExecutors) {
+            @Override
+            protected void saveCallResult(@NonNull ResponseCredits item) {
+                for (Cast cast : item.getCast())
+                    cast.setMovieTvId(item.getId());
+
+                for (Crew crew : item.getCrew())
+                    crew.setMovieTvId(item.getId());
+
+                Credit credit = new Credit();
+                credit.setId(item.getId());
+
+                db.beginTransaction();
+
+                try {
+
+                    creditDao.insertCredit(credit);
+                    creditDao.insertCasts(item.getCast());
+                    creditDao.insertCrews(item.getCrew());
+                    db.setTransactionSuccessful();
+
+                } finally {
+                    db.endTransaction();
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Credit data) {
+                return data == null
+                        || data.getCasts() == null
+                        || data.getCasts().isEmpty()
+                        || data.getCrews() == null
+                        || data.getCrews().isEmpty();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Credit> loadFromDb() {
+                return Transformations.switchMap(creditDao.find(movieId), new Function<Credit, LiveData<Credit>>() {
+                    @Override
+                    public LiveData<Credit> apply(Credit credit) {
+                        if (credit == null)
+                            return AbsentLiveData.create();
+                        else {//todo
+                            List<Cast> castList = creditDao.findCasts(credit.getId());
+                            List<Crew> crewList = creditDao.findCrews(credit.getId());
+                            credit.setCasts(castList);
+                            credit.setCrews(crewList);
+
+                            MutableLiveData<Credit> mutableLiveData = new MutableLiveData<>();
+                            mutableLiveData.postValue(credit);
+                            return mutableLiveData;
+                        }
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<ResponseCredits>> createCall() {
+                return service.getCredits(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+            }
+        }.asLiveData();
     }
 
 }

@@ -1,9 +1,11 @@
 package com.aac.andcun.themoviedb_mvvm.vo;
 
+import android.arch.persistence.room.Entity;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-public class Crew {
+@Entity(primaryKeys = {"id"})
+public class Crew extends People{
 
     @SerializedName("credit_id")
     @Expose
@@ -20,12 +22,6 @@ public class Crew {
     @SerializedName("job")
     @Expose
     private String job;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("profile_path")
-    @Expose
-    private String profilePath;
 
     public String getCreditId() {
         return creditId;
@@ -65,22 +61,6 @@ public class Crew {
 
     public void setJob(String job) {
         this.job = job;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProfilePath() {
-        return profilePath;
-    }
-
-    public void setProfilePath(String profilePath) {
-        this.profilePath = profilePath;
     }
 
 }
