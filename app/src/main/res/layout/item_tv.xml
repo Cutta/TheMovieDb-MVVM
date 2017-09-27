@@ -22,7 +22,7 @@
             android:layout_height="@dimen/movie_tv_item_height"
             android:contentDescription="@null"
             android:scaleType="center"
-            app:backdropPath="@{tv.posterPath}" />
+            app:posterPath="@{tv.posterPath}" />
 
         <TextView
             android:id="@+id/textViewName"

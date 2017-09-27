@@ -38,6 +38,8 @@ public interface TMDBService {
                                                 @Query("language") String language,
                                                 @Query("page") int page);
 
+    //todo cuneyt livedata ve call dönüyor bak
+
     @GET("tv/popular")
     LiveData<ApiResponse<PaginationResponse<Tv>>> getPopularTvs(@Query("api_key") String apiKey,
                                                                 @Query("language") String language);
@@ -103,7 +105,13 @@ public interface TMDBService {
                                                       @Query("language") String language,
                                                       @Query("page") int page);
 
+    @GET("movie/{movie_id}")
+    LiveData<ApiResponse<Movie>> getMovie(@Path("movie_id") int movieId,
+                                          @Query("api_key") String apiKey,
+                                          @Query("language") String language);
+
     //
+
 
     @GET("movie/{movie_id}")
     Observable<Movie> getMovieDetail(@Path("movie_id") int movieId,

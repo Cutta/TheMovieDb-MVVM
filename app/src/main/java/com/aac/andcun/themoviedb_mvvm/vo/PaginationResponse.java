@@ -60,7 +60,7 @@ public class PaginationResponse<T extends Id> {
     }
 
     @NonNull
-    public List<Integer> getMovieIds() {
+    public List<Integer> getIds() {
         List<Integer> ids = new ArrayList<>();
         for (Id id : results) {
             ids.add(id.getId());

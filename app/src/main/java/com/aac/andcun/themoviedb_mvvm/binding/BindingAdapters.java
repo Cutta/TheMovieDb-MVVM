@@ -13,9 +13,9 @@ import com.bumptech.glide.Glide;
 
 public class BindingAdapters {
 
-    @BindingAdapter("app:backdropPath")
-    public static void loadImage(ImageView imageView, String backdropPath) {
-        Glide.with(imageView.getContext()).load(ApiConstants.IMAGE_PREFIX + backdropPath).centerCrop().into(imageView);
+    @BindingAdapter("app:posterPath")
+    public static void loadImage(ImageView imageView, String posterPath) {
+        Glide.with(imageView.getContext()).load(ApiConstants.IMAGE_PREFIX + posterPath).centerCrop().into(imageView);
     }
 
     @BindingAdapter("visibleGone")

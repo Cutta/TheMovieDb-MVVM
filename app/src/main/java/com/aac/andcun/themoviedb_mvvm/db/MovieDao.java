@@ -38,15 +38,18 @@ public abstract class MovieDao {
     @Query("SELECT * FROM PaginationResult WHERE type = :type")
     public abstract PaginationResult findPaginationResult(String type);
 
+    @Query("SELECT * FROM Movie WHERE mId = :movieId")
+    public abstract LiveData<Movie> loadById(Integer movieId);
+
     @Query("SELECT * FROM Movie WHERE mId in (:movieIds)")
-    public abstract LiveData<List<Movie>> loadById(List<Integer> movieIds);
+    public abstract LiveData<List<Movie>> loadByIds(List<Integer> movieIds);
 
     public LiveData<List<Movie>> loadOrdered(List<Integer> movieIds) {
         final SparseIntArray order = new SparseIntArray();
         int index = 0;
         for (Integer movieId : movieIds)
             order.put(movieId, index++);
-        return Transformations.map(loadById(movieIds), new Function<List<Movie>, List<Movie>>() {
+        return Transformations.map(loadByIds(movieIds), new Function<List<Movie>, List<Movie>>() {
             @Override
             public List<Movie> apply(List<Movie> movies) {
                 Collections.sort(movies, new Comparator<Movie>() {

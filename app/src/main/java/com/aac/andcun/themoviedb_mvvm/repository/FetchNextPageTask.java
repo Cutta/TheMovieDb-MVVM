@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.aac.andcun.themoviedb_mvvm.api.ApiResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.Id;
-import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResult;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
@@ -42,7 +41,7 @@ public abstract class FetchNextPageTask<T extends Id> implements Runnable {
             if (apiResponse.isSuccessful() && apiResponse.body != null) {
                 List<Integer> movieIds = new ArrayList<>();
                 movieIds.addAll(paginationResult.ids);
-                movieIds.addAll(apiResponse.body.getMovieIds());
+                movieIds.addAll(apiResponse.body.getIds());
 
                 PaginationResult newPaginationResult = new PaginationResult(paginationResult.type, movieIds,
                         apiResponse.body.getTotalResults(), apiResponse.body.getNextPage());
@@ -61,6 +60,7 @@ public abstract class FetchNextPageTask<T extends Id> implements Runnable {
         return liveData;
     }
 
+    //todo cuneyt
     abstract PaginationResult loadPaginationResultFromDb();
 
     abstract Call<PaginationResponse<T>> createCall(Integer nextPage);

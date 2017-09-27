@@ -70,6 +70,7 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
         resourceLiveData.observe(this, new Observer<Resource<List<Tv>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Tv>> listResource) {
+                //aktif olmayan pager sayfasında da her yenilemede bu işlem tekrarlanıyor!
                 if (listResource != null && listResource.data != null) {
                     adapter.updateTvList(listResource.data);
                     binding.executePendingBindings();

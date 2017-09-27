@@ -30,6 +30,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void updateMovieList(final List<Movie> movieList) {
         this.mMovieList = movieList;
         notifyDataSetChanged();
+        //todo  cuneyt
         /*if (mMovieList == null || mMovieList.isEmpty()) {
             mMovieList = movieList;
             notifyItemRangeChanged(0, mMovieList.size());

@@ -1,18 +1,21 @@
 package com.aac.andcun.themoviedb_mvvm.ui.detail;
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.ActivityMovieDetailBinding;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
-import com.aac.andcun.themoviedb_mvvm.util.RxTransformer;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
+import com.aac.andcun.themoviedb_mvvm.vo.Resource;
+import com.aac.andcun.themoviedb_mvvm.vo.Status;
 
 import javax.inject.Inject;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by andani on 19.09.2017.
@@ -32,25 +35,29 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        movieRepository.getMovie(getMovieId()).observe(this, new Observer<Resource<Movie>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Movie> movieResource) {
+                binding.setLoading(movieResource.status == Status.LOADING);
+                if (movieResource.data != null) {
+                    binding.setMovie(movieResource.data);
+                }
+                binding.executePendingBindings();
+                Log.d("TAG", "onChanged: " + movieResource.message);
+            }
+        });
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_movie_detail;
     }
 
     @Override
     protected void setUpUiComponents() {
-        movieRepository.getMovieDetail(getMovieId())
-                .compose(RxTransformer.<Movie>applyIOSchedulers())
-                .subscribe(new Consumer<Movie>() {
-                    @Override
-                    public void accept(Movie movie) throws Exception {
 
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
-                    }
-                });
     }
 
     public int getMovieId() {

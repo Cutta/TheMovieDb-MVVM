@@ -44,9 +44,9 @@ public class TvRepository {
                 case TopRated:
                     return "TOP RATED";
                 case OnTheAir:
-                    return "On The Air";
+                    return "ON THE AIR";
                 case AiringToday:
-                    return "Airing Today";
+                    return "AIRING TODAY";
                 default:
                     throw new RuntimeException();
             }
@@ -76,7 +76,7 @@ public class TvRepository {
 
             @Override
             protected void saveCallResult(@NonNull PaginationResponse<Tv> paginationResponse) {
-                List<Integer> tvIds = paginationResponse.getMovieIds();
+                List<Integer> tvIds = paginationResponse.getIds();
                 PaginationResult paginationResult = new PaginationResult(tvListType.getType(), tvIds,
                         paginationResponse.getTotalResults(), paginationResponse.getNextPage());
                 db.beginTransaction();

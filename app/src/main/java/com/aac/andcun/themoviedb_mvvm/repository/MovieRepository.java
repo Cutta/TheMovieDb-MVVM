@@ -81,7 +81,7 @@ public class MovieRepository {
 
             @Override
             protected void saveCallResult(@NonNull PaginationResponse<Movie> paginationResponse) {
-                List<Integer> movieIds = paginationResponse.getMovieIds();
+                List<Integer> movieIds = paginationResponse.getIds();
                 PaginationResult paginationResult = new PaginationResult(movieListType.getType(), movieIds,
                         paginationResponse.getTotalResults(), paginationResponse.getNextPage());
                 db.beginTransaction();
@@ -173,6 +173,35 @@ public class MovieRepository {
         };
         appExecutors.networkIO().execute(nextPageTask);
         return nextPageTask.getLiveData();
+    }
+
+    public LiveData<Resource<Movie>> getMovie(final int movieId) {
+
+        return new NetworkBoundResource<Movie, Movie>(appExecutors) {
+            @Override
+            protected void saveCallResult(@NonNull Movie item) {
+                movieDao.insert(item);
+
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Movie data) {
+                return true; //todo
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Movie> loadFromDb() {
+                return movieDao.loadById(movieId);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Movie>> createCall() {
+                return service.getMovie(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+            }
+        }.asLiveData();
+
     }
 
     public Observable<Movie> getMovieDetail(int movieId) {
