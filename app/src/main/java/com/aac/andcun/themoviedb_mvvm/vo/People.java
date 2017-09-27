@@ -15,6 +15,9 @@ public class People {
     @SerializedName("profile_path")
     @Expose
     private String profilePath;
+    @SerializedName("order")
+    @Expose
+    private int listOrder;
 
     private int movieTvId;
 
@@ -41,4 +44,13 @@ public class People {
     public void setMovieTvId(int movieTvId) {
         this.movieTvId = movieTvId;
     }
+
+    public int getListOrder() {
+        return listOrder;
+    }
+
+    public void setListOrder(int order) {
+        this.listOrder = order;
+    }
+
 }

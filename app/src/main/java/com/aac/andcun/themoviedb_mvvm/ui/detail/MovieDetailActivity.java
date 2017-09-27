@@ -15,6 +15,7 @@ import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
 import com.aac.andcun.themoviedb_mvvm.vo.Cast;
 import com.aac.andcun.themoviedb_mvvm.vo.Credit;
+import com.aac.andcun.themoviedb_mvvm.vo.Credits;
 import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
@@ -30,6 +31,9 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
 
     @Inject
     MovieRepository movieRepository;
+
+    MoviePeopleAdapter<Cast> castMoviePeopleAdapter;
+    MoviePeopleAdapter<Crew> crewMoviePeopleAdapter;
 
     private static final String EXTRA_MOVIE_ID = MovieDetailActivity.class.getSimpleName() + ".extra_movie_id";
 
@@ -54,12 +58,24 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
             }
         });
 
-        movieRepository.getCredits(getMovieId()).observe(this, new Observer<Resource<Credit>>() {
+        movieRepository.getCredits(getMovieId()).observe(this, new Observer<Resource<Credits>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Credits> creditsResource) {
+                if (creditsResource.data != null) {
+                    castMoviePeopleAdapter.setPeoples(creditsResource.data.casts);
+                    crewMoviePeopleAdapter.setPeoples(creditsResource.data.crews);
+                    binding.executePendingBindings();
+                }
+                Log.i("", "");
+            }
+        });
+
+        /*movieRepository.getCredits(getMovieId()).observe(this, new Observer<Resource<Credit>>() {
             @Override
             public void onChanged(@Nullable Resource<Credit> creditResource) {
                 Log.d("onChanged", "onChanged: ");
             }
-        });
+        });*/
     }
 
     @Override
@@ -70,8 +86,8 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     protected void setUpUiComponents() {
 
-        MoviePeopleAdapter<Cast> castMoviePeopleAdapter = new MoviePeopleAdapter<>();
-        MoviePeopleAdapter<Crew> crewMoviePeopleAdapter = new MoviePeopleAdapter<>();
+        castMoviePeopleAdapter = new MoviePeopleAdapter<>();
+        crewMoviePeopleAdapter = new MoviePeopleAdapter<>();
 
         binding.rvCast.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.rvCrew.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

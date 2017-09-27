@@ -4,7 +4,8 @@ import android.arch.persistence.room.Entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-@Entity(primaryKeys = {"id"})
+
+@Entity(primaryKeys = {"mId"})
 public class Crew extends People{
 
     @SerializedName("credit_id")
@@ -18,7 +19,7 @@ public class Crew extends People{
     private int gender;
     @SerializedName("id")
     @Expose
-    private int id;
+    private int mId;
     @SerializedName("job")
     @Expose
     private String job;
@@ -48,11 +49,11 @@ public class Crew extends People{
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public String getJob() {

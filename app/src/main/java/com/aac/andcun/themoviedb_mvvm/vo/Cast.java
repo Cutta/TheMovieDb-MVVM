@@ -4,12 +4,13 @@ import android.arch.persistence.room.Entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-@Entity(primaryKeys = {"id"})
+
+@Entity(primaryKeys = {"mId"})
 public class Cast extends People{
 
     @SerializedName("cast_id")
     @Expose
-    private Integer castId;
+    private int castId;
     @SerializedName("character")
     @Expose
     private String character;
@@ -18,20 +19,17 @@ public class Cast extends People{
     private String creditId;
     @SerializedName("gender")
     @Expose
-    private Integer gender;
+    private int gender;
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("order")
-    @Expose
-    private Integer order;
+    private int mId;
 
 
-    public Integer getCastId() {
+    public int getCastId() {
         return castId;
     }
 
-    public void setCastId(Integer castId) {
+    public void setCastId(int castId) {
         this.castId = castId;
     }
 
@@ -51,30 +49,20 @@ public class Cast extends People{
         this.creditId = creditId;
     }
 
-    public Integer getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
-    public Integer getId() {
-        return id;
+    public int getId() {
+        return mId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(int id) {
+        this.mId = id;
     }
-
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
 
 }

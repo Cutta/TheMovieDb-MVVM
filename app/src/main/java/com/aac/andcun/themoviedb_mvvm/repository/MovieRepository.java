@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.aac.andcun.themoviedb_mvvm.api.ApiConstants;
 import com.aac.andcun.themoviedb_mvvm.api.ApiResponse;
@@ -17,6 +18,7 @@ import com.aac.andcun.themoviedb_mvvm.util.AbsentLiveData;
 import com.aac.andcun.themoviedb_mvvm.util.AppExecutors;
 import com.aac.andcun.themoviedb_mvvm.vo.Cast;
 import com.aac.andcun.themoviedb_mvvm.vo.Credit;
+import com.aac.andcun.themoviedb_mvvm.vo.Credits;
 import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
@@ -223,8 +225,8 @@ public class MovieRepository {
         return service.getSimilarMovies(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
     }
 
-    public LiveData<Resource<Credit>> getCredits(final int movieId) {
-        return new NetworkBoundResource<Credit, ResponseCredits>(appExecutors) {
+    public LiveData<Resource<Credits>> getCredits(final int movieId) {
+        return new NetworkBoundResource<Credits, ResponseCredits>(appExecutors) {
             @Override
             protected void saveCallResult(@NonNull ResponseCredits item) {
                 for (Cast cast : item.getCast())
@@ -239,10 +241,9 @@ public class MovieRepository {
                 db.beginTransaction();
 
                 try {
-
-                    creditDao.insertCredit(credit);
                     creditDao.insertCasts(item.getCast());
                     creditDao.insertCrews(item.getCrew());
+                    creditDao.insertCredit(credit);
                     db.setTransactionSuccessful();
 
                 } finally {
@@ -251,34 +252,20 @@ public class MovieRepository {
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable Credit data) {
-                return data == null
-                        || data.getCasts() == null
-                        || data.getCasts().isEmpty()
-                        || data.getCrews() == null
-                        || data.getCrews().isEmpty();
+            protected boolean shouldFetch(@Nullable Credits data) {
+                return data == null || data.credit == null;
             }
 
             @NonNull
             @Override
-            protected LiveData<Credit> loadFromDb() {
-                return Transformations.switchMap(creditDao.find(movieId), new Function<Credit, LiveData<Credit>>() {
+            protected LiveData<Credits> loadFromDb() {
+                return Transformations.switchMap(creditDao.find(movieId), new Function<Credit, LiveData<Credits>>() {
                     @Override
-                    public LiveData<Credit> apply(Credit credit) {
+                    public LiveData<Credits> apply(Credit credit) {
                         if (credit == null)
                             return AbsentLiveData.create();
-                        else {//todo
-                            List<Cast> castList = creditDao.findCasts(credit.getId());
-                            List<Crew> crewList = creditDao.findCrews(credit.getId());
-                            credit.setCasts(castList);
-                            credit.setCrews(crewList);
-
-                            MutableLiveData<Credit> mutableLiveData = new MutableLiveData<>();
-                            mutableLiveData.postValue(credit);
-                            return mutableLiveData;
-                        }
-
-                    }
+                        else
+                            return creditDao.loadCredits(movieId);                     }
                 });
             }
 
