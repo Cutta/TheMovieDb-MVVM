@@ -61,6 +61,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@android:color/darker_gray" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_similar_movies"
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+
         </LinearLayout>
 
         <ProgressBar

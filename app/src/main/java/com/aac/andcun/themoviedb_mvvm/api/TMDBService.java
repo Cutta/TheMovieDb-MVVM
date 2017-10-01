@@ -83,6 +83,19 @@ public interface TMDBService {
     LiveData<ApiResponse<PaginationResponse<Movie>>> getNowPlayingMovies(@Query("api_key") String apiKey,
                                                                          @Query("language") String language);
 
+
+    @GET("movie/{movie_id}/similar")
+    LiveData<ApiResponse<PaginationResponse<Movie>>> getSimilarMovies(@Path("movie_id") int movieId,
+                                                                      @Query("api_key") String apiKey,
+                                                                      @Query("language") String language);
+
+
+    @GET("movie/{movie_id}/similar")
+    Call<PaginationResponse<Movie>> getSimilarMovies(@Path("movie_id") int movieId,
+                                                     @Query("api_key") String apiKey,
+                                                     @Query("language") String language,
+                                                     @Query("page") int page);
+
     @GET("movie/now_playing")
     Call<PaginationResponse<Movie>> getNowPlayingMovies(@Query("api_key") String apiKey,
                                                         @Query("language") String language,
@@ -114,8 +127,8 @@ public interface TMDBService {
 
     @GET("tv/{tv_id}")
     LiveData<ApiResponse<Tv>> getTv(@Path("tv_id") int tvId,
-                                          @Query("api_key") String apiKey,
-                                          @Query("language") String language);
+                                    @Query("api_key") String apiKey,
+                                    @Query("language") String language);
 
 
     @GET("person/{person_id}")
@@ -128,14 +141,14 @@ public interface TMDBService {
 
     @GET("movie/{movie_id}/credits")
     LiveData<ApiResponse<ResponseCredits>> getMovieCredits(@Path("movie_id") int movieId,
-                                                      @Query("api_key") String apiKey,
-                                                      @Query("language") String language);
+                                                           @Query("api_key") String apiKey,
+                                                           @Query("language") String language);
 
 
     @GET("tv/{tv_id}/credits")
     LiveData<ApiResponse<ResponseCredits>> getTvCredits(@Path("tv_id") int movieId,
-                                                      @Query("api_key") String apiKey,
-                                                      @Query("language") String language);
+                                                        @Query("api_key") String apiKey,
+                                                        @Query("language") String language);
 
 
     @GET("movie/{movie_id}/credits")
@@ -143,10 +156,10 @@ public interface TMDBService {
                                                @Query("api_key") String apiKey,
                                                @Query("language") String language);
 
-    @GET("movie/{movie_id}/similar")
+   /* @GET("movie/{movie_id}/similar")
     Observable<PaginationResponse> getSimilarMovies(@Path("movie_id") int movieId,
                                                     @Query("api_key") String apiKey,
-                                                    @Query("language") String language);
+                                                    @Query("language") String language);*/
 
     //DISCOVER
     @GET("discover/movie")

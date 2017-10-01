@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
@@ -20,6 +21,8 @@ import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
 import com.aac.andcun.themoviedb_mvvm.vo.Status;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -68,6 +71,13 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                     crewPeopleAdapter.setPeoples(creditsResource.data.crews);
                     binding.executePendingBindings();
                 }
+            }
+        });
+
+        movieRepository.getSimilarMovies(getMovieId()).observe(this, new Observer<Resource<List<Movie>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<Movie>> listResource) {
+                Log.d("TAG", "onChanged: ");
             }
         });
 

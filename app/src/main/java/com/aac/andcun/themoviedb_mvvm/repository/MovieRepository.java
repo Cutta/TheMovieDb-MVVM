@@ -75,6 +75,8 @@ public class MovieRepository {
     private TMDBService service;
     private AppExecutors appExecutors;
 
+    public static final String SIMILAR_MOVIES_IDS = "SIMILAR MOVIES IDS";
+
 
     @Inject
     public MovieRepository(TMDBDb db, TMDBService service, MovieDao movieDao, CreditDao creditDao, AppExecutors appExecutors) {
@@ -116,9 +118,9 @@ public class MovieRepository {
                     public LiveData<List<Movie>> apply(PaginationResult paginationResult) {
                         if (paginationResult == null)
                             return AbsentLiveData.create();
-                        else {
+                        else
                             return movieDao.loadOrdered(paginationResult.ids);
-                        }
+
                     }
                 });
             }
@@ -208,6 +210,52 @@ public class MovieRepository {
             @Override
             protected LiveData<ApiResponse<Movie>> createCall() {
                 return service.getMovie(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+            }
+        }.asLiveData();
+
+    }
+
+    public LiveData<Resource<List<Movie>>> getSimilarMovies(final int movieId){
+        return new NetworkBoundResource<List<Movie>, PaginationResponse<Movie>>(appExecutors) {
+            @Override
+            protected void saveCallResult(@NonNull PaginationResponse<Movie> paginationResponse) {
+                List<Integer> movieIds = paginationResponse.getIds();
+                PaginationResult paginationResult = new PaginationResult(SIMILAR_MOVIES_IDS + " " + movieId , movieIds,
+                        paginationResponse.getTotalResults(), paginationResponse.getNextPage());
+                db.beginTransaction();
+                try {
+                    movieDao.insertMovies(paginationResponse.getResults());
+                    movieDao.insert(paginationResult);
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Movie> data) {
+                return data == null || data.isEmpty();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Movie>> loadFromDb() {
+                return Transformations.switchMap(movieDao.search(SIMILAR_MOVIES_IDS + " " + movieId), new Function<PaginationResult, LiveData<List<Movie>>>() {
+                    @Override
+                    public LiveData<List<Movie>> apply(PaginationResult paginationResult) {
+                        if (paginationResult == null)
+                            return AbsentLiveData.create();
+                        else
+                            return movieDao.loadOrdered(paginationResult.ids);
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<PaginationResponse<Movie>>> createCall() {
+                return service.getSimilarMovies(movieId,ApiConstants.API_KEY,Locale.getDefault().getLanguage());
             }
         }.asLiveData();
 
