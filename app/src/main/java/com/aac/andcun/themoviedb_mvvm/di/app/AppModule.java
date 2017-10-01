@@ -7,6 +7,7 @@ import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
 import com.aac.andcun.themoviedb_mvvm.db.CreditDao;
 import com.aac.andcun.themoviedb_mvvm.db.DateTypeAdapter;
 import com.aac.andcun.themoviedb_mvvm.db.MovieDao;
+import com.aac.andcun.themoviedb_mvvm.db.PersonDao;
 import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
 import com.aac.andcun.themoviedb_mvvm.db.TvDao;
 import com.aac.andcun.themoviedb_mvvm.util.LiveDataCallAdapterFactory;
@@ -90,6 +91,12 @@ public class AppModule {
     @Provides
     CreditDao provideCreditDao(TMDBDb db) {
         return db.creditDao();
+    }
+
+    @Singleton
+    @Provides
+    PersonDao providePersonDao(TMDBDb db) {
+        return db.personDao();
     }
 
 }

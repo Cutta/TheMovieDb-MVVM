@@ -38,6 +38,9 @@ public abstract class TvDao {
     @Query("SELECT * FROM PaginationResult WHERE type = :type")
     public abstract PaginationResult findPaginationResult(String type);
 
+    @Query("SELECT * FROM Tv WHERE mId = :movieId")
+    public abstract LiveData<Tv> loadById(Integer movieId);
+
     @Query("SELECT * FROM Tv WHERE mId in (:tvIds)")
     public abstract LiveData<List<Tv>> loadById(List<Integer> tvIds);
 

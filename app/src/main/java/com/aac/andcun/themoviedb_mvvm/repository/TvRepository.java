@@ -9,14 +9,19 @@ import android.support.annotation.Nullable;
 import com.aac.andcun.themoviedb_mvvm.api.ApiConstants;
 import com.aac.andcun.themoviedb_mvvm.api.ApiResponse;
 import com.aac.andcun.themoviedb_mvvm.api.TMDBService;
+import com.aac.andcun.themoviedb_mvvm.db.CreditDao;
 import com.aac.andcun.themoviedb_mvvm.db.TMDBDb;
 import com.aac.andcun.themoviedb_mvvm.db.TvDao;
 import com.aac.andcun.themoviedb_mvvm.util.AbsentLiveData;
 import com.aac.andcun.themoviedb_mvvm.util.AppExecutors;
+import com.aac.andcun.themoviedb_mvvm.vo.Cast;
 import com.aac.andcun.themoviedb_mvvm.vo.Credit;
+import com.aac.andcun.themoviedb_mvvm.vo.Credits;
+import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResult;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
+import com.aac.andcun.themoviedb_mvvm.vo.ResponseCredits;
 import com.aac.andcun.themoviedb_mvvm.vo.Tv;
 
 import java.util.List;
@@ -61,18 +66,20 @@ public class TvRepository {
 
     private TMDBDb db;
     private TvDao tvDao;
+    private CreditDao creditDao;
     private TMDBService service;
     private AppExecutors appExecutors;
 
     @Inject
-    public TvRepository(TMDBDb db, TMDBService service, TvDao tvDao, AppExecutors appExecutors) {
+    public TvRepository(TMDBDb db, TMDBService service, TvDao tvDao,CreditDao creditDao, AppExecutors appExecutors) {
         this.db = db;
         this.tvDao = tvDao;
+        this.creditDao = creditDao;
         this.service = service;
         this.appExecutors = appExecutors;
     }
 
-    public LiveData<Resource<List<Tv>>> loadTvs(final TvListType tvListType) {
+    public LiveData<Resource<List<Tv>>> getTvs(final TvListType tvListType) {
         return new NetworkBoundResource<List<Tv>, PaginationResponse<Tv>>(appExecutors) {
 
             @Override
@@ -170,5 +177,85 @@ public class TvRepository {
         return nextPageTask.getLiveData();
     }
 
+    public LiveData<Resource<Tv>> getTv(final int tvId){
+
+        return new NetworkBoundResource<Tv, Tv>(appExecutors) {
+            @Override
+            protected void saveCallResult(@NonNull Tv item) {
+                tvDao.insert(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Tv data) {
+                return data == null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Tv> loadFromDb() {
+                return tvDao.loadById(tvId);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Tv>> createCall() {
+                return service.getTv(tvId,ApiConstants.API_KEY,Locale.getDefault().getLanguage());
+            }
+        }.asLiveData();
+    }
+
+
+
+    public LiveData<Resource<Credits>> getCredits(final int tvId) {
+        return new NetworkBoundResource<Credits, ResponseCredits>(appExecutors) {
+            @Override
+            protected void saveCallResult(@NonNull ResponseCredits item) {
+                for (Cast cast : item.getCast())
+                    cast.setMovieTvId(item.getId());
+
+                for (Crew crew : item.getCrew())
+                    crew.setMovieTvId(item.getId());
+
+                Credit credit = new Credit();
+                credit.setId(item.getId());
+
+                db.beginTransaction();
+
+                try {
+                    creditDao.insertCasts(item.getCast());
+                    creditDao.insertCrews(item.getCrew());
+                    creditDao.insertCredit(credit);
+                    db.setTransactionSuccessful();
+
+                } finally {
+                    db.endTransaction();
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Credits data) {
+                return data == null || data.credit == null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Credits> loadFromDb() {
+                return Transformations.switchMap(creditDao.find(tvId), new Function<Credit, LiveData<Credits>>() {
+                    @Override
+                    public LiveData<Credits> apply(Credit credit) {
+                        if (credit == null)
+                            return AbsentLiveData.create();
+                        else
+                            return creditDao.loadCredits(tvId);                     }
+                });
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<ResponseCredits>> createCall() {
+                return service.getTvCredits(tvId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+            }
+        }.asLiveData();
+    }
 
 }

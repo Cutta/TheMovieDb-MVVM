@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
+
 import android.support.v7.widget.RecyclerView;
 
 import com.aac.andcun.themoviedb_mvvm.R;
@@ -16,7 +16,7 @@ import com.aac.andcun.themoviedb_mvvm.repository.NextPageHandler;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 import com.aac.andcun.themoviedb_mvvm.ui.common.MovieAdapter;
 import com.aac.andcun.themoviedb_mvvm.ui.common.decoration.GridSpacingItemDecoration;
-import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
+import com.aac.andcun.themoviedb_mvvm.ui.detail.movie.MovieDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
 
@@ -33,7 +33,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     private static final String ARG_MOVIE_LIST_TYPE_ORDINAL = MoviePageFragment.class.getSimpleName() + ".arg_movie_list_type_ordinal";
 
     @Inject
-    MovieRepository repository;
+    MovieRepository movieRepository;
 
     private MovieAdapter adapter;
     private NextPageHandler nextPageHandler;
@@ -66,7 +66,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
     }
 
     private void setUpRecyclerView() {
-        LiveData<Resource<List<Movie>>> resourceLiveData = repository.getMovies(movieListType);
+        LiveData<Resource<List<Movie>>> resourceLiveData = movieRepository.getMovies(movieListType);
 
         resourceLiveData.observe(this, new Observer<Resource<List<Movie>>>() {
             @Override
@@ -106,7 +106,7 @@ public class MoviePageFragment extends BaseFragment<FragmentMoviePageBinding> {
         nextPageHandler = new NextPageHandler() {
             @Override
             public LiveData<Resource<Boolean>> createNextPageCall() {
-                return repository.fetchNextPage(movieListType);
+                return movieRepository.fetchNextPage(movieListType);
             }
         };
 

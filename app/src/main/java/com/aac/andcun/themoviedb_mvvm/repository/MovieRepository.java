@@ -195,7 +195,7 @@ public class MovieRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable Movie data) {
-                return true; //todo
+                return data == null;
             }
 
             @NonNull
@@ -213,17 +213,6 @@ public class MovieRepository {
 
     }
 
-    public Observable<Movie> getMovieDetail(int movieId) {
-        return service.getMovieDetail(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
-    }
-
-    // public Observable<ResponseCredits> getCredits(int movieId) {
-    //   return service.getMovieCredit(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
-    //}
-
-    public Observable<PaginationResponse> getSimilars(int movieId) {
-        return service.getSimilarMovies(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
-    }
 
     public LiveData<Resource<Credits>> getCredits(final int movieId) {
         return new NetworkBoundResource<Credits, ResponseCredits>(appExecutors) {
@@ -272,7 +261,7 @@ public class MovieRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<ResponseCredits>> createCall() {
-                return service.getCredits(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
+                return service.getMovieCredits(movieId, ApiConstants.API_KEY, Locale.getDefault().getLanguage());
             }
         }.asLiveData();
     }

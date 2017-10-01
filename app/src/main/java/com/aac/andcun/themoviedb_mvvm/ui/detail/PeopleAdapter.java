@@ -16,12 +16,12 @@ import java.util.List;
  * Created by cuneytcarikci on 27/09/2017.
  */
 
-public class MoviePeopleAdapter<T extends People> extends RecyclerView.Adapter<MoviePeopleAdapter.MoviePeopleViewHolder> {
+public class PeopleAdapter<T extends People> extends RecyclerView.Adapter<PeopleAdapter.MoviePeopleViewHolder> {
 
     private List<T> peoples;
     private OnItemClickListener<T> onItemClickListener;
 
-    public MoviePeopleAdapter() {
+    public PeopleAdapter() {
         this.peoples = Collections.emptyList();
     }
 

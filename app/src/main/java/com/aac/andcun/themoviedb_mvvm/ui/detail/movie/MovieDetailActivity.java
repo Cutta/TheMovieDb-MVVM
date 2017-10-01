@@ -1,4 +1,4 @@
-package com.aac.andcun.themoviedb_mvvm.ui.detail;
+package com.aac.andcun.themoviedb_mvvm.ui.detail.movie;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
@@ -6,15 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.aac.andcun.themoviedb_mvvm.R;
 import com.aac.andcun.themoviedb_mvvm.databinding.ActivityMovieDetailBinding;
 import com.aac.andcun.themoviedb_mvvm.repository.MovieRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseActivity;
+import com.aac.andcun.themoviedb_mvvm.ui.detail.PeopleAdapter;
+import com.aac.andcun.themoviedb_mvvm.ui.person.PersonDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.vo.Cast;
-import com.aac.andcun.themoviedb_mvvm.vo.Credit;
 import com.aac.andcun.themoviedb_mvvm.vo.Credits;
 import com.aac.andcun.themoviedb_mvvm.vo.Crew;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
@@ -32,8 +32,8 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Inject
     MovieRepository movieRepository;
 
-    MoviePeopleAdapter<Cast> castMoviePeopleAdapter;
-    MoviePeopleAdapter<Crew> crewMoviePeopleAdapter;
+    PeopleAdapter<Cast> castPeopleAdapter;
+    PeopleAdapter<Crew> crewPeopleAdapter;
 
     private static final String EXTRA_MOVIE_ID = MovieDetailActivity.class.getSimpleName() + ".extra_movie_id";
 
@@ -49,33 +49,28 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         movieRepository.getMovie(getMovieId()).observe(this, new Observer<Resource<Movie>>() {
             @Override
             public void onChanged(@Nullable Resource<Movie> movieResource) {
-                binding.setLoading(movieResource.status == Status.LOADING);
-                if (movieResource.data != null) {
-                    binding.setMovie(movieResource.data);
+                if (movieResource != null) {
+                    binding.setLoading(movieResource.status == Status.LOADING);
+                    if (movieResource.data != null) {
+                        binding.setMovie(movieResource.data);
+                    }
+                    binding.executePendingBindings();
                 }
-                binding.executePendingBindings();
-                Log.d("TAG", "onChanged: " + movieResource.message);
+
             }
         });
 
         movieRepository.getCredits(getMovieId()).observe(this, new Observer<Resource<Credits>>() {
             @Override
             public void onChanged(@Nullable Resource<Credits> creditsResource) {
-                if (creditsResource.data != null) {
-                    castMoviePeopleAdapter.setPeoples(creditsResource.data.casts);
-                    crewMoviePeopleAdapter.setPeoples(creditsResource.data.crews);
+                if (creditsResource != null && creditsResource.data != null) {
+                    castPeopleAdapter.setPeoples(creditsResource.data.casts);
+                    crewPeopleAdapter.setPeoples(creditsResource.data.crews);
                     binding.executePendingBindings();
                 }
-                Log.i("", "");
             }
         });
 
-        /*movieRepository.getCredits(getMovieId()).observe(this, new Observer<Resource<Credit>>() {
-            @Override
-            public void onChanged(@Nullable Resource<Credit> creditResource) {
-                Log.d("onChanged", "onChanged: ");
-            }
-        });*/
     }
 
     @Override
@@ -86,24 +81,24 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     protected void setUpUiComponents() {
 
-        castMoviePeopleAdapter = new MoviePeopleAdapter<>();
-        crewMoviePeopleAdapter = new MoviePeopleAdapter<>();
+        castPeopleAdapter = new PeopleAdapter<>();
+        crewPeopleAdapter = new PeopleAdapter<>();
 
         binding.rvCast.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.rvCrew.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        binding.rvCast.setAdapter(castMoviePeopleAdapter);
-        binding.rvCrew.setAdapter(crewMoviePeopleAdapter);
+        binding.rvCast.setAdapter(castPeopleAdapter);
+        binding.rvCrew.setAdapter(crewPeopleAdapter);
 
 
-        castMoviePeopleAdapter.setOnItemClickListener(new MoviePeopleAdapter.OnItemClickListener<Cast>() {
+        castPeopleAdapter.setOnItemClickListener(new PeopleAdapter.OnItemClickListener<Cast>() {
             @Override
             public void onItemClick(int position, Cast item) {
-                Toast.makeText(MovieDetailActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+                startActivity(PersonDetailActivity.newIntent(MovieDetailActivity.this, item.getId()));
             }
         });
 
-        crewMoviePeopleAdapter.setOnItemClickListener(new MoviePeopleAdapter.OnItemClickListener<Crew>() {
+        crewPeopleAdapter.setOnItemClickListener(new PeopleAdapter.OnItemClickListener<Crew>() {
             @Override
             public void onItemClick(int position, Crew item) {
                 Toast.makeText(MovieDetailActivity.this, item.getName(), Toast.LENGTH_SHORT).show();

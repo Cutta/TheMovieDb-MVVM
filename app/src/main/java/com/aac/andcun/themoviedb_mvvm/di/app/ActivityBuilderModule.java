@@ -1,7 +1,9 @@
 package com.aac.andcun.themoviedb_mvvm.di.app;
 
-import com.aac.andcun.themoviedb_mvvm.ui.detail.MovieDetailActivity;
+import com.aac.andcun.themoviedb_mvvm.ui.detail.movie.MovieDetailActivity;
+import com.aac.andcun.themoviedb_mvvm.ui.detail.tv.TvDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.ui.main.MainActivity;
+import com.aac.andcun.themoviedb_mvvm.ui.person.PersonDetailActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -18,5 +20,11 @@ public abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector(modules = FragmentBuilderModule.class)
     abstract MovieDetailActivity movieDetailActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuilderModule.class)
+    abstract TvDetailActivity tvDetailActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuilderModule.class)
+    abstract PersonDetailActivity personDetailActivity();
 
 }

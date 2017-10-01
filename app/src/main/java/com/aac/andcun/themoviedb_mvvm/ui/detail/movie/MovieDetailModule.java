@@ -1,4 +1,4 @@
-package com.aac.andcun.themoviedb_mvvm.ui.detail;
+package com.aac.andcun.themoviedb_mvvm.ui.detail.movie;
 
 import dagger.Module;
 import dagger.Provides;

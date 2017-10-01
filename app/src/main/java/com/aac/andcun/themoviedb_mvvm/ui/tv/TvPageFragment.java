@@ -16,6 +16,7 @@ import com.aac.andcun.themoviedb_mvvm.repository.TvRepository;
 import com.aac.andcun.themoviedb_mvvm.ui.base.BaseFragment;
 import com.aac.andcun.themoviedb_mvvm.ui.common.TvAdapter;
 import com.aac.andcun.themoviedb_mvvm.ui.common.decoration.GridSpacingItemDecoration;
+import com.aac.andcun.themoviedb_mvvm.ui.detail.tv.TvDetailActivity;
 import com.aac.andcun.themoviedb_mvvm.vo.Resource;
 import com.aac.andcun.themoviedb_mvvm.vo.Tv;
 
@@ -65,7 +66,7 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
     }
 
     private void setUpRecyclerView() {
-        LiveData<Resource<List<Tv>>> resourceLiveData = repository.loadTvs(tvListType);
+        LiveData<Resource<List<Tv>>> resourceLiveData = repository.getTvs(tvListType);
 
         resourceLiveData.observe(this, new Observer<Resource<List<Tv>>>() {
             @Override
@@ -97,7 +98,7 @@ public class TvPageFragment extends BaseFragment<FragmentTvPageBinding> {
         adapter.setOnItemClickListener(new TvAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, Tv item) {
-                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
+                startActivity(TvDetailActivity.newIntent(getActivity(), item.getId()));
             }
         });
     }

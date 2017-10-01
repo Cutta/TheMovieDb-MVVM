@@ -8,7 +8,7 @@
 
         <fragment
             android:id="@+id/fragment_movie"
-            android:name="com.aac.andcun.themoviedb_mvvm.ui.movie.MovieFragment"
+            android:name="com.aac.andcun.themoviedb_mvvm.ui.tv.TvFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

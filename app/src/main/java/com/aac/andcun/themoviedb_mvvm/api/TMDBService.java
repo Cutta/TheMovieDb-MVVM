@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import com.aac.andcun.themoviedb_mvvm.vo.Movie;
 import com.aac.andcun.themoviedb_mvvm.vo.PaginationResponse;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseCredits;
+import com.aac.andcun.themoviedb_mvvm.vo.Person;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseRequestToken;
 import com.aac.andcun.themoviedb_mvvm.vo.ResponseSessionId;
 import com.aac.andcun.themoviedb_mvvm.vo.Tv;
@@ -110,19 +111,31 @@ public interface TMDBService {
                                           @Query("api_key") String apiKey,
                                           @Query("language") String language);
 
+
+    @GET("tv/{tv_id}")
+    LiveData<ApiResponse<Tv>> getTv(@Path("tv_id") int tvId,
+                                          @Query("api_key") String apiKey,
+                                          @Query("language") String language);
+
+
+    @GET("person/{person_id}")
+    LiveData<ApiResponse<Person>> getPerson(@Path("person_id") int personId,
+                                            @Query("api_key") String apiKey,
+                                            @Query("language") String language);
+
     //
 
 
     @GET("movie/{movie_id}/credits")
-    LiveData<ApiResponse<ResponseCredits>> getCredits(@Path("movie_id") int movieId,
-                                               @Query("api_key") String apiKey,
-                                               @Query("language") String language);
+    LiveData<ApiResponse<ResponseCredits>> getMovieCredits(@Path("movie_id") int movieId,
+                                                      @Query("api_key") String apiKey,
+                                                      @Query("language") String language);
 
 
-    @GET("movie/{movie_id}")
-    Observable<Movie> getMovieDetail(@Path("movie_id") int movieId,
-                                     @Query("api_key") String apiKey,
-                                     @Query("language") String language);
+    @GET("tv/{tv_id}/credits")
+    LiveData<ApiResponse<ResponseCredits>> getTvCredits(@Path("tv_id") int movieId,
+                                                      @Query("api_key") String apiKey,
+                                                      @Query("language") String language);
 
 
     @GET("movie/{movie_id}/credits")
